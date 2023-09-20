@@ -451,27 +451,19 @@ const careersData =[
         '06/2016',
         '05/2019',
         [
-            `Professional Role:
-            Founder and Lead Engineer
-
-            Managed and directed firm operations.
+            `Managed and directed firm operations.
             Pioneered the conceptualization, design and engineering of innovative products.
             
-            Projects:
-
-            On-Road Emergency and Repair Services App:
-            Designed for users to swiftly locate nearby vehicle service stations during highway malfunctions.
+            On-Road Emergency and Repair Services App - Designed for users to swiftly locate nearby vehicle service stations during highway malfunctions.
             Facilitates immediate contact with the closest ambulance services during medical crises.
             Integrates real-time location display of the requester on the operator's platform.
 
-            CarRace AR:
-            An Augmented Reality car racing game.
+            CarRace AR - An Augmented Reality car racing game.
             Developed for the Accenture Innovation Challenge and secured a position in the top 20 projects nationwide.
             Features: Enables users to engage in a car race on an augmented terrain using just a piece of paper.
             Tech Stack: Unity3D, Vuforia, Android App, NodeJS backend, MongoDB, and hosted on AWS ECS.
 
-            Maha-RTO Marathi Test Android App:
-            Curated for Marathi literate individuals aiming to prepare for the LLR examination, organized by the Maharashtra State RTO department.
+            Maha-RTO Marathi Test Android App - Curated for Marathi literate individuals aiming to prepare for the LLR examination, organized by the Maharashtra State RTO department.
             Incorporates the Google Translate API for optimal user experience.
             Tech Stack: Android App, Google Translate API.`
         ],
