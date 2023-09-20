@@ -48,7 +48,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     
-    steps:
+    steps:     
+    - name: Download production-ready build files
+      uses: actions/download-artifact@v2
+      with:
+        name: production-files
+        path: ${{ github.workspace }}/build
+
     - name: Deploy to gh-pages
       id: deployment
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v1
