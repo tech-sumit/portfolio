@@ -448,8 +448,8 @@ const careersData =[
         'Profusion',
         'Profusion Technologies',
         'Founder',
-        '12/2017',
-        '5/2019',
+        '06/2016',
+        '05/2019',
         [
             `I was responsible for Designing & building products & managing the firm as a
             founder.
