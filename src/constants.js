@@ -451,23 +451,29 @@ const careersData =[
         '06/2016',
         '05/2019',
         [
-            `I was responsible for Designing & building products & managing the firm as a
-            founder.
+            `Professional Role:
+            Founder and Lead Engineer
+
+            Managed and directed firm operations.
+            Pioneered the conceptualization, design and engineering of innovative products.
             
-            On-Road emergency and repair services This is an application for locating
-            nearby vehicle service stations in case of a highway vehicle failure or In case of a
-            medical emergency, This app contacts the nearest ambulance operators and
-            also displays the location of the requester on the operator's application.
-            
-            CarRace AR. This is a Augmented reality car racing game for Accenture Innovation
-            Challenge. Ranked in top 20 projects nationally. Play a car racing game on
-            augmented terrain on a simple sheet of paper.
-            Tech stack: Unity3D, Vuforia, Android App, NodeJS backend, MongoDB,
-            Deployed on AWS ECS
-            
-            Maha-RTO Marathi Test Android app created for Marathi literate users to
-            practice for the LLR exam conducted by the Maharashtra State RTO department.
-            Tech Stack: Android App, Google Translate API`
+            Projects:
+
+            On-Road Emergency and Repair Services App:
+            Designed for users to swiftly locate nearby vehicle service stations during highway malfunctions.
+            Facilitates immediate contact with the closest ambulance services during medical crises.
+            Integrates real-time location display of the requester on the operator's platform.
+
+            CarRace AR:
+            An Augmented Reality car racing game.
+            Developed for the Accenture Innovation Challenge and secured a position in the top 20 projects nationwide.
+            Features: Enables users to engage in a car race on an augmented terrain using just a piece of paper.
+            Tech Stack: Unity3D, Vuforia, Android App, NodeJS backend, MongoDB, and hosted on AWS ECS.
+
+            Maha-RTO Marathi Test Android App:
+            Curated for Marathi literate individuals aiming to prepare for the LLR examination, organized by the Maharashtra State RTO department.
+            Incorporates the Google Translate API for optimal user experience.
+            Tech Stack: Android App, Google Translate API.`
         ],
         [],
         '',
