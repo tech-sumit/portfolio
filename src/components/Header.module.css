@@ -1,0 +1,64 @@
+.header {
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    height: var(--header-height);
+    position: fixed; /* Or sticky */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width);
+}
+
+.titleLink {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.titleLink:hover {
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+/* Add container for nav + toggle */
+.navContainer {
+    display: flex;
+    align-items: center;
+}
+
+.nav a {
+    color: var(--text-secondary);
+    margin-left: 1.5rem;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav a:hover,
+.nav a.activeLink { /* Style for active page link */
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+/* Update responsive styles */
+@media (max-width: 768px) {
+    .navContainer { /* Hide the whole container (nav + toggle) */
+        display: none;
+    }
+    .titleLink {
+        font-size: 1.1rem;
+    }
+} 

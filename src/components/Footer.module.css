@@ -1,0 +1,27 @@
+.footer {
+    background-color: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem;
+    margin-top: 2rem; /* Space above footer */
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.footerContent {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.socialLinks {
+    margin-top: 0.5rem;
+}
+
+.socialLinks a {
+    color: var(--text-secondary);
+    margin: 0 0.5rem;
+}
+
+.socialLinks a:hover {
+    color: var(--accent-primary);
+} 

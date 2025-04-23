@@ -1,0 +1,174 @@
+/* src/styles/skills.module.css */
+
+.skillsContainer {
+  margin-top: 2rem;
+}
+
+.categorySection {
+  /* Set a max-width smaller than the main container */
+  max-width: 1400px; 
+  /* Center the card within its parent using auto margins */
+  margin-left: auto;
+  margin-right: auto;
+  /* Keep vertical margin */
+  margin-bottom: 2.5rem; 
+  /* Reset top margin if needed, as auto sets all */
+  margin-top: 0; 
+
+  background-color: var(--bg-secondary); /* Card background */
+  border-radius: 8px; /* More pronounced radius */
+  padding: 1.5rem 2rem; /* Restore original padding */
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.categorySection h2 {
+  color: var(--accent-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem; /* Increased padding */
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem; /* Slightly larger category title */
+}
+
+.categoryExplanation {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-top: -0.25rem; /* Pull it slightly closer to the heading */
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  max-width: 80ch; /* Limit width for readability */
+}
+
+.skillsGrid {
+  /* Use flexbox for a flowing layout */
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 0.75rem;
+  /* Remove grid-specific properties */
+  /* grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); */
+  /* justify-items: start; */
+}
+
+.skillBadge {
+  background-color: rgba(var(--accent-primary-rgb, 100, 255, 218), 0.1); /* Use accent with alpha, define fallback */
+  color: var(--accent-primary); /* Make text match accent */
+  padding: 0.6rem 1.1rem; /* Adjust padding */
+  border-radius: 20px; /* Pill shape */
+  border: 1px solid transparent; /* Remove default border or make transparent */
+  font-size: 0.9rem; /* Slightly smaller text */
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer; /* Still clickable */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  text-align: left; /* Added previously, keep */
+}
+
+/* Target the text span inside the badge */
+.skillBadge span {
+  line-height: 1.2; /* Adjust for better perceived vertical centering */
+  display: inline-block; /* Ensure span behaves predictably */
+}
+
+.skillBadge:hover {
+  color: var(--text-primary); /* Change text color on hover */
+  background-color: var(--accent-primary); /* Solid accent on hover */
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.skillBadge svg {
+  font-size: 1.1em; /* Adjust icon size */
+  flex-shrink: 0;
+  /* Optional: Give icon a specific color */
+  /* color: var(--accent-primary); */
+  vertical-align: middle; /* Add explicit vertical align for the icon */
+}
+
+/* --- Modal Styles --- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem; /* Add padding for small screens */
+}
+
+.modalContent {
+  background-color: var(--bg-primary);
+  padding: 2rem;
+  border-radius: 5px;
+  max-width: 600px;
+  width: 100%; /* Use full width up to max-width */
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.modalContent h2 {
+  margin-top: 0;
+  color: var(--accent-primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem; /* Adjust modal title size */
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 0.75rem;  /* Adjust position */
+  right: 0.75rem; /* Adjust position */
+  background: none;
+  border: none;
+  font-size: 1.8rem; /* Make X slightly larger */
+  font-weight: bold;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem; /* Add padding for easier clicking */
+  line-height: 1;
+}
+.modalCloseButton:hover {
+    color: var(--text-primary);
+}
+
+.modalSection {
+  margin-bottom: 1.5rem;
+}
+
+.modalSection:last-child {
+    margin-bottom: 0;
+}
+
+.modalSection h3 {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+   border-bottom: 1px solid var(--border-color);
+   padding-bottom: 0.3rem;
+}
+
+.modalSection ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.modalSection li {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+.modalSection li a {
+    color: var(--accent-primary); /* Use link color */
+}
+
+.modalSection li a:hover {
+    text-decoration: underline;
+} 

@@ -1,0 +1,11 @@
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1; /* Ensure main content takes up available space */
+  padding-top: var(--header-height); /* Account for fixed header */
+  /* The max-width and horizontal centering are handled in global.css main {} */
+} 
