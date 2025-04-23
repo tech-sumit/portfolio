@@ -174,8 +174,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // Define template paths
   const pageTemplate = path.resolve(`./src/templates/page.js`);
   const postTemplate = path.resolve(`./src/templates/post.js`);
-  // Revert the path for the skills page component to its current location
   const skillsPageComponent = path.resolve(`./src/pages/skills.js`);
+  const experiencePageComponent = path.resolve(`./src/templates/ExperiencePage.js`);
+  const projectsPageComponent = path.resolve(`./src/templates/ProjectsPage.js`);
+  // Add the new About template path
+  const aboutPageComponent = path.resolve(`./src/templates/AboutPage.js`);
 
   // Query for markdown nodes
   const result = await graphql(`
@@ -216,19 +219,32 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       // Determine path and template based on source
       if (sourceInstanceName === 'pages') {
           pagePath = slug === 'index' ? '/' : `/${slug}`;
-          component = pageTemplate;
-          reporter.info(`  -> Matched 'pages'. Path: ${pagePath}`);
+          if (slug === 'projects') {
+              component = projectsPageComponent;
+              reporter.info(`  -> Matched 'pages/projects'. Using specific component: ${component}. Path: ${pagePath}`);
+          // --- Add case for /about --- 
+          } else if (slug === 'about') {
+              component = aboutPageComponent; // Use the About template
+              reporter.info(`  -> Matched 'pages/about'. Using specific component: ${component}. Path: ${pagePath}`);
+          } else {
+              component = pageTemplate; // Use generic for any other pages
+              reporter.info(`  -> Matched 'pages' (generic). Path: ${pagePath}`);
+          }
+          // --- End pages logic ---
       } else if (sourceInstanceName === 'resume') {
           pagePath = `/${slug}`;
-          // --- Special case for /skills page ---
           if (slug === 'skills') {
-             component = skillsPageComponent; // Point back to the actual location
+             component = skillsPageComponent;
              reporter.info(`  -> Matched 'resume/skills'. Using specific component: ${component}. Path: ${pagePath}`);
+          // --- Add case for /experience --- 
+          } else if (slug === 'experience') {
+             component = experiencePageComponent; // Use the Experience template
+             reporter.info(`  -> Matched 'resume/experience'. Using specific component: ${component}. Path: ${pagePath}`);
           } else {
-             component = pageTemplate;
-             reporter.info(`  -> Matched 'resume'. Path: ${pagePath}`);
+             component = pageTemplate; // Use generic template for other resume pages (e.g., education, achievements)
+             reporter.info(`  -> Matched 'resume' (generic). Path: ${pagePath}`);
           }
-          // --- End special case ---
+          // --- End resume logic ---
       } else if (sourceInstanceName === 'posts') {
           pagePath = `/blog/${slug}`;
           component = postTemplate;

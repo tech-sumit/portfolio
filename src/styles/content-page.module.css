@@ -1,0 +1,343 @@
+/* src/styles/content-page.module.css */
+
+/* Style for the cards wrapping content sections */
+.contentCard {
+  margin-bottom: 2.5rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* Add max-width and centering like skills page */
+  max-width: 1400px; 
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0; /* Ensure vertical margins are controlled by margin-bottom */
+}
+
+/* Optional: Style headings within the cards */
+.contentCard h2,
+.contentCard h3 {
+  color: var(--accent-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem; /* Adjust as needed */
+}
+
+/* Optional: Style paragraphs within the cards */
+.contentCard p {
+    color: var(--text-secondary);
+    /* Add other paragraph styles if desired */
+}
+
+/* Optional: Style lists within the cards */
+.contentCard ul,
+.contentCard ol {
+    /* Add list styles if desired */
+    padding-left: 20px; 
+}
+
+.contentCard li {
+    margin-bottom: 0.5rem;
+}
+
+/* Style for intro text (if present before cards) */
+.pageIntro {
+  max-width: 80ch; 
+  margin: 0 auto 2.5rem auto; 
+  padding: 2rem 1.5rem; /* Add padding */
+  border-radius: var(--border-radius-md); /* Rounded corners */
+  background-color: var(--background-secondary); /* Subtle background */
+  border: 1px solid var(--border-color-light); /* Subtle border */
+  text-align: center; /* Center align text inside */
+  box-shadow: var(--shadow-sm); /* Subtle shadow */
+}
+
+/* Style the subtitle (assuming H3) inside the intro */
+.pageIntro h3 {
+  font-size: 1.8rem; /* Make subtitle larger */
+  color: var(--accent-primary); /* Use accent color */
+  font-weight: 600;
+  margin-top: 0; /* Remove default top margin */
+  margin-bottom: 1rem; /* Space below subtitle */
+}
+
+/* Style the paragraph inside the intro */
+.pageIntro p {
+  color: var(--text-secondary); /* Ensure correct color */
+  font-size: 1.05rem; /* Slightly adjust size if needed */
+  line-height: 1.7;
+  max-width: 70ch; /* Slightly narrower width for paragraph */
+  margin-left: auto; /* Center paragraph within the centered block */
+  margin-right: auto;
+  margin-bottom: 0; /* Remove default bottom margin if it's the last element */
+}
+
+/* --- Experience Page Specific Styles --- */
+
+.jobHeaderContainer {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.jobCompany {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.jobTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.jobMeta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Allow wrap on small screens */
+  gap: 0.5rem; /* Add gap for wrapped items */
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+.jobLocation {
+  /* No specific styles needed currently */
+}
+
+.jobDate {
+  font-style: italic;
+}
+
+.jobResponsibilities {
+  margin-bottom: 1rem;
+}
+
+/* Remove Responsibilities heading style as it's removed from component */
+/* .jobResponsibilities h4 { ... } */
+
+.jobResponsibilities ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.jobResponsibilities li {
+  margin-bottom: 0.6rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.jobResponsibilities li a {
+    color: var(--accent-primary);
+}
+.jobResponsibilities li a:hover {
+    text-decoration: underline;
+}
+
+.jobResponsibilities ul li::before {
+  content: '•';
+  color: var(--primary-color); /* Or your desired color */
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.jobTechnologies {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border-color);
+  /* font-size: 0.9rem; */ /* Font size is handled by badges now */
+}
+
+/* Style the new H4 heading */
+.jobTechnologies h4 {
+  margin-bottom: 0.5rem; /* Space below heading */
+  color: var(--text-muted); /* Subdued color */
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Remove styles for the no-longer-used p/strong inside */
+/*
+.jobTechnologies p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+.jobTechnologies strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+*/
+
+/* Remove or comment out old generic styles if no longer needed */
+/* Remove .jobHeader, .jobDetails styles */
+
+/* Optional: Style general headings within the cards */
+/* ... existing h2, h3 styles ... */
+
+/* Optional: Style paragraphs within the cards */
+/* ... existing p styles ... */
+
+/* Optional: Style general lists within the cards */
+/* ... existing ul, ol, li styles ... */
+
+/* --- Projects Page Specific Styles --- */
+
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* Add space below header */
+}
+
+.projectTitle {
+  font-size: 1.8rem; /* Adjust title size */
+  margin-bottom: 0.5rem; /* Space below title */
+}
+
+.projectDates {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.projectDetails {
+  margin-bottom: 1rem; /* Space below details */
+}
+
+/* Remove bottom margin from the last paragraph inside projectDetails */
+.projectDetails > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Container for the technologies section */
+.projectTechnologiesContainer {
+  margin-top: 1rem; /* Add space above the tech section */
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color-light); /* Separator line */
+}
+
+/* Heading for the technologies section */
+.projectTechnologiesContainer h4 {
+  margin-bottom: 0.5rem; /* Space below the heading */
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Container for the badges themselves */
+.techBadgeContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem; /* Match skill badge gap */
+  margin-top: 0.25rem; 
+}
+
+/* Individual technology badge (styled like skill buttons) */
+.techBadge {
+  /* Applied styles similar to .skillBadge */
+  background-color: rgba(var(--accent-primary-rgb, 100, 255, 218), 0.1); 
+  color: var(--accent-primary); 
+  padding: 0.6rem 1.1rem; 
+  border-radius: 20px; /* Pill shape */
+  border: 1px solid transparent; 
+  font-size: 0.9rem; 
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* Space for potential future icons */
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  
+  /* Link specific */
+  text-decoration: none; 
+  cursor: pointer; 
+}
+
+/* REMOVE separator */
+/* 
+.techBadgeContainer .techBadge:not(:last-child)::after {
+  content: ">";
+  margin-left: 0.5rem; 
+  color: var(--text-muted); 
+  font-weight: bold;
+}
+*/
+
+.techBadge:hover {
+  /* Hover styles similar to .skillBadge */
+  color: var(--text-primary); 
+  background-color: var(--accent-primary); 
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Remove styles for the old two-column layout */
+/*
+.projectBody { ... }
+.projectMainContent { ... }
+.projectTechSidebar { ... }
+.projectRole { ... }
+.projectDescription { ... }
+.projectOtherDetails { ... }
+*/
+
+
+/* --- End Projects Page Specific Styles --- */
+
+/* --- About Page Specific Styles --- */
+
+.contactList {
+  list-style: none; /* Remove default bullets */
+  padding: 0;
+  margin: 0; /* Remove default margins */
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem; /* Space between items */
+  font-size: 1rem; /* Adjust size if needed */
+  color: var(--text-secondary);
+}
+
+.contactItem:last-child {
+  margin-bottom: 0;
+}
+
+.contactIcon {
+  color: var(--accent-primary); /* Use accent color for icons */
+  margin-right: 0.75rem; /* Space between icon and text */
+  font-size: 1.2em; /* Make icon slightly larger than text */
+  flex-shrink: 0; /* Prevent icon from shrinking */
+  width: 1.5em; /* Give icon fixed width for alignment */
+  text-align: center;
+}
+
+.contactText {
+  line-height: 1.5;
+}
+
+/* Style links within contact text */
+.contactText a {
+  color: var(--accent-primary); /* Link color */
+  text-decoration: none;
+}
+
+.contactText a:hover {
+  text-decoration: underline;
+}
+
+
+/* --- End About Page Specific Styles --- */
+
+/* ... other styles ... */ 

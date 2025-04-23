@@ -13,6 +13,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Appadvertieing.AI** | [Website](https://www.appadvertising.ai/)
+
 *Technologies: FastAPI, OpenAI APIs, Google cloud platform, solutions architecture, python, word2vec, Google TTS, ReactJS, Next.JS, Postgresql*
 
 *   **Role:** Sole Architect & Developer
@@ -21,6 +22,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **AI Support Agent** | [Medium Article](https://sumit-agrawal.medium.com/qna-chatbot-with-openai-api-embedding-models-gpt-and-pinecone-8df90235b356)
+
 *Technologies: AWS, FastAPI, LLMa3, Google speech to text, Google text to speech APIs, Trello APIs, IVR APIs, LangChain, Pinecone for memory*
 
 *   **Role:** Sole Architect & Developer
@@ -29,6 +31,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Bazzar App**
+
 *Technologies: Android App, GMS services, NodeJS backend, ReactJS Dashboard, MongoDB, Redis, AWS SNS, Digital Ocean*
 
 *   **Role:** Lead Developer & Architect
@@ -37,6 +40,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Saras, The Speech Recognition Software**
+
 *Technologies: Microsoft Windows utility, C#, Microsoft offline Speech to text API*
 
 *   **Role:** Sole Developer
@@ -45,6 +49,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Service Infrastructure (Cloudwalker)** | [Website](https://www.cloudwalker.tv/)
+
 *Technologies: Android system app, GoLang Microservices, AWS IoT, AWS SNS, NodeJS, ReactJS, MongoDB, AWS ECS*
 
 *   **Role:** Lead Backend & System App Developer
@@ -53,6 +58,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Cloudwalker AppStore** | [Website](https://cloudtvos.com/#app-store)
+
 *Technologies: Android app, GoLang gRPC API gateway, NodeJS, ReactJS, MongoDB, AWS ECS*
 
 *   **Role:** Full-Stack Developer
@@ -61,6 +67,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Enterprise CMS (Cloudwalker)** | [Website](https://cloudtvos.com/#cde)
+
 *Technologies: Android system app, GoLang REST APIs, NodeJS, ReactJS, MongoDB, Redis Cache, AWS ECS*
 
 *   **Role:** Lead Backend Developer
@@ -69,6 +76,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **LMS (Cloudwalker)** | [Website](https://www.cloudwalker.tv/)
+
 *Technologies: GoLang microservices, NATS messaging, NodeJS, ReactJS, MongoDB, AWS ECS*
 
 *   **Role:** Lead Backend Developer
@@ -77,6 +85,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Data Analytics Platform (Cloudwalker)** | [Website](https://www.cloudwalker.tv/)
+
 *Technologies: Python Flask, SparkQL, ORC store, Digital ocean*
 
 *   **Role:** Data Engineer & Developer
@@ -85,6 +94,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **OTA Updates (Cloudwalker)** | [Website](https://cloudtvos.com/)
+
 *Technologies: GoLang Backend, ReactJS, MongoDB, AWS ECS*
 
 *   **Role:** Backend Developer
@@ -93,6 +103,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Home Defender devices (Cloudwalker)** | [Website](https://www.cloudwalker.tv/)
+
 *Technologies: ESP8266, Ambient Temperature sensors, OLED display, buzzer module, IR proximity sensor, Android companion app, NodeJS, DynamoDB, AWS IoT, AWS Lambda*
 
 *   **Role:** IoT & Full-Stack Developer
@@ -101,6 +112,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Cloudy (Cloudwalker)** | [Website](https://cloudtvos.com/)
+
 *Technologies: Android system app, GoLang Microservices, Wit.AI NLP, RASA, GCP Speech to text, NodeJS, MongoDB, AWS ECS*
 
 *   **Role:** AI Engineer & System Developer
@@ -109,6 +121,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Neobank for Validus group** | [Website](https://validus.sg/2022/01/validus-adds-key-hires-to-its-senior-leadership-team/)
+
 *Technologies: Java Microservices, VueJS frontend, Amazon EKS, RDS(MySQL), API Gateway, private VPCs, Flutter, Terraform*
 
 *   **Role:** Solutions Architect & Backend Lead (via Perennial Systems)
@@ -117,6 +130,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **GST Hero (Homegrown suite of business tools)** | [Website](https://gsthero.com/)
+
 *Technologies: Automation tools, Salesforce Integration, Data Engineering Stack (specifics determined during project)*
 
 *   **Role:** Technical Consultant & Team Lead (via Perennial Systems)
@@ -125,6 +139,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **ERP for Bukalapak Ecommerce platform** | [Website](https://www.bukalapak.com/)
+
 *Technologies: GoLang Microservices, ReactJS, Firebase, Istio service mesh, Kubernetes, Cloud functions, CloudSQL(PostgreSQL), Redis, GCP PubSub, Cloud Tasks, Bitbucket*
 
 *   **Role:** Solutions Architect & Tech Lead (via Perennial Systems)
@@ -133,6 +148,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Cryptocurrency Trading & Portfolio Application (OpenConnect)** | [Website](https://www.alpha5.io/)
+
 *Technologies: GoLang, C++ Microservices, ApacheMQ, Flutter, Geth, Protocol buffers, TimescaleDB, MongoDB, Prometheus, Grafana, Kubernetes*
 
 *   **Role:** Architect & Senior Developer (Contract)
@@ -141,6 +157,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **On-Road Emergency and Repair Services** | [YouTube Video](https://youtu.be/wFo2-0FLdlc)
+
 *Technologies: Android App, GMS services, NodeJS backend, ReactJS Dashboard, PostgreSQL, Redis cache, Digital Ocean*
 
 *   **Role:** Lead Developer
@@ -149,6 +166,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **CarRace AR** | [Demo](https://drive.google.com/file/d/182Td0uKxcxTnwOLFwzMYTfwYpssv0-gl/view?usp=sharing)
+
 *Technologies: Unity3D, Vuforia, Android App, NodeJS backend, MongoDB, AWS ECS*
 
 *   **Role:** Lead Developer
@@ -157,6 +175,7 @@ This section highlights projects where I played a key role in the end-to-end des
 ---
 
 **Maha-RTO Marathi Test** | [GitHub](https://github.com/tech-sumit/MahaRTOMarathiTest)
+
 *Technologies: Android App, Google Translate API*
 
 *   **Role:** Sole Developer

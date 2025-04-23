@@ -14,10 +14,12 @@ Throughout my journey, I've had the privilege of contributing to high-impact pro
 
 I thrive on turning complex challenges into seamless experiences, blending deep technical expertise with a passion for clean, minimalistic design. Explore my portfolio to see how I transform innovative ideas into tangible results that drive industry success.
 
----
 
-### Contact Information
+## Contact Information
 
-*   **Email:** [mr.sumitagrawal.17@gmail.com](mailto:mr.sumitagrawal.17@gmail.com)
-*   **Phone:** +91 7709922149
-*   **Location:** Andheri West, Mumbai, Maharashtra - 400058 (Open to remote opportunities globally)
+* Email: [mr.sumitagrawal.17@gmail.com](mailto:mr.sumitagrawal.17@gmail.com)
+* Phone: +91 7709922149
+* Location: Andheri West, Mumbai, Maharashtra - 400058 (Open to remote opportunities globally)
+* LinkedIn: [agrawal-sumit](https://www.linkedin.com/in/agrawal-sumit/)
+* GitHub: [tech-sumit](https://github.com/tech-sumit)
+* Instagram: [mr.sumitagrawal](https://www.instagram.com/mr.sumitagrawal/)

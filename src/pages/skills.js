@@ -205,6 +205,46 @@ const SkillsPage = ({ data }) => {
     return null; // Default no icon
   };
 
+  // 3. Handle incoming hash links (NEW useEffect)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash && skillCategories.length > 0 && skillConnections) {
+      // Check if skillCategories AND skillConnections are loaded
+      const hash = window.location.hash.substring(1); // Remove '#'
+      try {
+        const decodedHash = decodeURIComponent(hash);
+
+        // Normalize the hash to match skill names (lowercase, remove non-alphanumeric)
+        const normalizedHash = decodedHash.toLowerCase().replace(/[^a-z0-9]/gi, '');
+
+        // Find the skill name that matches the hash
+        let targetSkill = null;
+        for (const category of skillCategories) {
+          for (const skill of category.skills) {
+            const normalizedSkill = skill.toLowerCase().replace(/[^a-z0-9]/gi, '');
+            if (normalizedSkill === normalizedHash) {
+              targetSkill = skill;
+              break;
+            }
+          }
+          if (targetSkill) break;
+        }
+
+        // If a matching skill is found, trigger the click handler
+        if (targetSkill && skillConnections.postsBySkill) { // Ensure connections are ready
+          // Use a timeout to ensure the initial render is complete
+          // and the modal can be opened correctly.
+          const timer = setTimeout(() => {
+            handleSkillClick(targetSkill);
+          }, 100); // Small delay (e.g., 100ms)
+          return () => clearTimeout(timer); // Cleanup timeout on unmount/re-run
+        }
+      } catch (e) {
+        console.error("Error decoding or handling URL hash:", e);
+      }
+    }
+    // Depend on skillCategories and skillConnections being populated
+  }, [skillCategories, skillConnections]);
+
   return (
     <Layout>
        {/* <Seo title={pageTitle} /> */}
