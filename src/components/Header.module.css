@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 .header {
     background-color: var(--bg-primary);
     border-bottom: 1px solid var(--border-color);
-    height: var(--header-height);
-    position: fixed; /* Or sticky */
+    height: 70px; /* Increased height for better presence */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -10,7 +12,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 1rem;
+    padding: 0 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .headerContent {
@@ -23,41 +28,85 @@
 
 .titleLink {
     color: var(--text-primary);
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-family: 'Inter', var(--font-sans);
     text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: -0.5px;
 }
 
 .titleLink:hover {
-    color: var(--accent-primary);
+    color: #007acc;
     text-decoration: none;
+    transform: translateY(-1px);
 }
 
 /* Add container for nav + toggle */
 .navContainer {
     display: flex;
     align-items: center;
+    gap: 2rem;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 .nav a {
     color: var(--text-secondary);
-    margin-left: 1.5rem;
     text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.2s ease-in-out;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Inter', var(--font-sans);
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+    letter-spacing: -0.2px;
+}
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #007acc, #0366d6);
+    transition: width 0.3s ease;
 }
 
 .nav a:hover,
-.nav a.activeLink { /* Style for active page link */
-    color: var(--accent-primary);
+.nav a.activeLink {
+    color: #007acc;
     text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.nav a:hover::after,
+.nav a.activeLink::after {
+    width: 100%;
 }
 
 /* Update responsive styles */
 @media (max-width: 768px) {
-    .navContainer { /* Hide the whole container (nav + toggle) */
+    .header {
+        padding: 0 1rem;
+        height: 60px;
+    }
+    
+    .navContainer {
         display: none;
     }
+    
+    .titleLink {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
     .titleLink {
         font-size: 1.1rem;
     }

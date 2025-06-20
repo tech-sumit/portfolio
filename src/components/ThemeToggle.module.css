@@ -1,25 +1,55 @@
 .toggleButton {
-    background: none;
-    border: 1px solid var(--text-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 1rem; /* Adjust size as needed */
+    font-size: 1.1rem;
     line-height: 1;
-    transition: all 0.2s ease-in-out;
-    margin-left: 1rem; /* Add space from nav links */
+    transition: all var(--transition-normal);
+    margin-left: 0;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.toggleButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 122, 204, 0.1), rgba(14, 165, 233, 0.1));
+    opacity: 0;
+    transition: opacity var(--transition-normal);
 }
 
 .toggleButton:hover {
     border-color: var(--accent-primary);
     color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.toggleButton:hover::before {
+    opacity: 1;
+}
+
+.toggleButton:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Style for the placeholder div before hydration */
 .placeholder {
-    width: 40px; /* Approx width of the button */
-    height: 30px; /* Approx height of the button */
+    width: 48px;
+    height: 40px;
     display: inline-block;
-    margin-left: 1rem;
+    margin-left: 0;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    opacity: 0.5;
 } 

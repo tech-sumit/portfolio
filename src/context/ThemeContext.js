@@ -22,10 +22,14 @@ const ThemeProvider = ({ children }) => {
   useEffect(() => {
     // This effect runs only on the client
     const root = window.document.body; // Apply class to body
-    const isDark = theme === 'dark';
-
-    root.classList.remove(isDark ? 'light-theme' : 'dark-theme');
-    root.classList.add(isDark ? 'dark-theme' : 'light-theme');
+    
+    // Remove both classes first
+    root.classList.remove('light-theme', 'dark-theme');
+    
+    // Add the appropriate class (dark is default, so only add light-theme when needed)
+    if (theme === 'light') {
+      root.classList.add('light-theme');
+    }
 
     // Save preference to localStorage
     window.localStorage.setItem('theme', theme);

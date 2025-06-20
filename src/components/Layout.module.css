@@ -6,6 +6,6 @@
 
 .mainContent {
   flex: 1; /* Ensure main content takes up available space */
-  padding-top: var(--header-height); /* Account for fixed header */
+  padding-top: 70px; /* Account for fixed header - matches new header height */
   /* The max-width and horizontal centering are handled in global.css main {} */
 } 
