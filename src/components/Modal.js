@@ -8,11 +8,13 @@ const Modal = ({ title, children, onClose, styles }) => {
   const handleKeyDown = (event) => {
     if (event.key === 'Escape') {
       onClose();
-    } else if (event.key === 'Enter' || event.key === ' ') {
-      if (event.target === event.currentTarget) {
-        onClose();
-        event.preventDefault();
-      }
+    }
+  };
+
+  // Handle overlay click
+  const handleOverlayClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
     }
   };
 
@@ -29,16 +31,25 @@ const Modal = ({ title, children, onClose, styles }) => {
   return (
     <div
       className={overlayClass}
-      onClick={onClose}
+      onClick={handleOverlayClick}
       onKeyDown={handleKeyDown}
       role="dialog"
-      tabIndex={0}
-      aria-label="Close modal"
       aria-modal="true"
+      aria-labelledby={title ? "modal-title" : undefined}
+      aria-label={title ? undefined : "Modal dialog"}
     >
-      <div className={contentClass} onClick={handleContentClick}>
-        {title && <h2>{title}</h2>}
-        <button className={closeButtonClass} onClick={onClose} aria-label="Close">
+      <div 
+        className={contentClass} 
+        onClick={handleContentClick}
+        role="document"
+      >
+        {title && <h2 id="modal-title">{title}</h2>}
+        <button 
+          className={closeButtonClass} 
+          onClick={onClose} 
+          aria-label="Close modal"
+          type="button"
+        >
           &times;
         </button>
         {children}
