@@ -2,7 +2,6 @@ import React, { useState, useMemo } from "react";
 import { Link, graphql } from "gatsby";
 import Layout from "../components/layout";
 import { useGradient } from '../context/GradientContext';
-// import Seo from "../components/seo"; // Optional
 import * as styles from '../styles/blog.module.css';
 
 const BlogIndexPage = ({ data }) => {

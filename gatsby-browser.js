@@ -18,5 +18,3 @@ export const wrapRootElement = ({ element }) => {
     </GradientProvider>
   );
 };
-
-// You can delete this file if you're not using it

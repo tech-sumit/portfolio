@@ -17,7 +17,7 @@ This is the content of your first sample blog post. You can write markdown here.
 
 ```javascript
 function greet(name) {
-  console.log(`Hello, ${name}!`);
+  return `Hello, ${name}!`;
 }
 greet('World');
 ```

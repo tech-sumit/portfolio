@@ -78,7 +78,7 @@ function parseExperienceHtml(html) {
       } else if (currentJob) {
           // Handle other potential content nodes between header and list if necessary
           // For now, we primarily expect the UL directly after the header paragraph
-          console.log("Found unexpected node type after job header:", node.tagName);
+          
       }
   });
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
-// import Seo from "../components/seo"; // Optional: Import SEO component if you have one
-
 import { useGradient } from '../context/GradientContext';
 
 const IndexPage = () => {
@@ -13,7 +11,6 @@ const IndexPage = () => {
   }
   return (
     <Layout>
-      {/* Optional: Add SEO component here <Seo title="Home" /> */}
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
@@ -316,6 +313,3 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
-
-// Optional: If you want to keep the Head API for SEO
-// export const Head = () => <Seo title="Home" />

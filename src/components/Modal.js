@@ -59,7 +59,7 @@ const Modal = ({ title, children, onClose, styles }) => {
         onClick={handleContentClick}
         onKeyDown={handleContentKeyDown}
         role="document"
-        tabIndex={-1}
+        tabIndex="0"
       >
         {title && <h2 id="modal-title">{title}</h2>}
         <button 

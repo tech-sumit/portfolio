@@ -65,7 +65,7 @@ async function getWebsiteContext() {
       throw new Error("Could not read any website content files.");
   }
 
-  console.log("Website context length (including blogs):", context.length); // Log context length
+  
 
   return context.trim();
 }
@@ -111,11 +111,11 @@ User Question: ${question}
 Answer:`;
 
     // 6. Call Gemini API
-    console.log("Sending request to Gemini API..."); // Server-side log
+    
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log("Received response from Gemini API."); // Server-side log
+    
 
     // 7. Return Response
     return res.status(200).json({ answer: text.trim() });
