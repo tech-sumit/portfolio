@@ -233,3 +233,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       reporter.info(`No markdown nodes found to create pages.`);
   }
 };
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "develop" || stage === "build-javascript") {
+    actions.setWebpackConfig({
+      resolve: {
+        fallback: {
+          fs: false,
+          path: require.resolve("path-browserify"),
+        },
+      },
+    });
+  }
+};

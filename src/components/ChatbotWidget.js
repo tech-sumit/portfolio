@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { useStaticQuery, graphql } from 'gatsby';
 import * as styles from './ChatbotWidget.module.css'; // We'll create this CSS module next
 import { FiMessageSquare, FiX, FiSend } from 'react-icons/fi'; // Example icons
 
@@ -10,6 +12,44 @@ const ChatbotWidget = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null); // To scroll to bottom
+
+  // Get website content using Gatsby's GraphQL
+  const data = useStaticQuery(graphql`
+    query ChatbotContentQuery {
+      allMarkdownRemark {
+        nodes {
+          fields {
+            slug
+            sourceInstanceName
+          }
+          rawMarkdownBody
+          frontmatter {
+            title
+          }
+        }
+      }
+    }
+  `);
+
+  // Process and format website content
+  const websiteContent = React.useMemo(() => {
+    let content = '';
+    
+    data.allMarkdownRemark.nodes.forEach(node => {
+      const { slug, sourceInstanceName } = node.fields;
+      const title = node.frontmatter?.title || slug;
+      const body = node.rawMarkdownBody;
+      
+      content += `\n\n--- ${sourceInstanceName}/${slug} (${title}) ---\n\n${body}`;
+    });
+    
+    return content || 'Website content not available.';
+  }, [data]);
+
+  // Initialize Google AI
+  const genAI = process.env.GATSBY_GOOGLE_AI_API_KEY 
+    ? new GoogleGenerativeAI(process.env.GATSBY_GOOGLE_AI_API_KEY)
+    : null;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,25 +83,46 @@ const ChatbotWidget = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/ask-website', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question: userMessage }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      if (!genAI) {
+        throw new Error('AI service not configured. Please set GATSBY_GOOGLE_AI_API_KEY environment variable.');
       }
 
-      setMessages(prev => [...prev, { sender: 'ai', text: data.answer }]);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+
+      const prompt = `You are a helpful assistant knowledgeable about Sumit Agrawal based *only* on the provided website content.
+Answer the following user question strictly based on the information given below.
+Do not make assumptions or use external knowledge. If the answer is not found in the text, say so.
+Be friendly and conversational in your responses.
+
+--- WEBSITE CONTENT START ---
+${websiteContent}
+--- WEBSITE CONTENT END ---
+
+User Question: ${userMessage}
+
+Answer:`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+
+      setMessages(prev => [...prev, { sender: 'ai', text: text.trim() }]);
 
     } catch (error) {
-      console.error("Chatbot API error:", error);
-      setMessages(prev => [...prev, { sender: 'ai', text: `Sorry, I encountered an error: ${error.message}` }]);
+      console.error("Chatbot error:", error);
+      let errorMessage = "Sorry, I encountered an error. ";
+      
+      if (error.message.includes('not configured')) {
+        errorMessage += "The AI service is not properly configured.";
+      } else if (error.message.includes('API key')) {
+        errorMessage += "Please check the API key configuration.";
+      } else if (error.message.includes('quota')) {
+        errorMessage += "API quota exceeded. Please try again later.";
+      } else {
+        errorMessage += "Please try again later.";
+      }
+      
+      setMessages(prev => [...prev, { sender: 'ai', text: errorMessage }]);
     } finally {
       setIsLoading(false);
     }

@@ -42,7 +42,7 @@ jobs:
       run: npm run build
       env:
         PREFIX_PATHS: true
-        GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+        GATSBY_GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
 
     - name: Upload production-ready build files
       uses: actions/upload-pages-artifact@v3
