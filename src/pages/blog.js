@@ -1,10 +1,13 @@
 import React, { useState, useMemo } from "react";
 import { Link, graphql } from "gatsby";
-import Layout from "../components/Layout";
+import Layout from "../components/layout";
+import { useGradient } from '../context/GradientContext';
 // import Seo from "../components/seo"; // Optional
 import * as styles from '../styles/blog.module.css';
 
 const BlogIndexPage = ({ data }) => {
+  const { isLoading } = useGradient();
+  
   // --- State ---
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState(new Set());
@@ -57,10 +60,14 @@ const BlogIndexPage = ({ data }) => {
     });
   };
 
+  if (isLoading) {
+    return <Layout><div>Loading...</div></Layout>;
+  }
+
   return (
     <Layout>
       {/* <Seo title="Blog" /> */}
-      <h1>Blog</h1>
+      <h1 className="gradient-text">Blog</h1>
 
       {/* --- Search Bar --- */}
       <div className={styles.searchContainer}>
@@ -76,13 +83,13 @@ const BlogIndexPage = ({ data }) => {
       <div className={styles.blogLayout}>
         {/* --- Sidebar for Tags --- */}
         <aside className={styles.sidebar}>
-          <h2>Filter by Tag</h2>
+          <h2 className="gradient-text">Filter by Tag</h2>
           <ul className={styles.tagList}>
             {allUniqueTags.map(group => (
               <li key={group.tag}>
                 <button
                   onClick={() => handleTagClick(group.tag)}
-                  className={`${styles.tagButton} ${selectedTags.has(group.tag) ? styles.activeTag : ''}`}
+                  className={`${styles.tagButton} ${selectedTags.has(group.tag) ? styles.activeTag : ''} ${selectedTags.has(group.tag) ? 'btn btn-primary' : 'btn btn-secondary'}`}
                 >
                   {group.tag} ({group.totalCount})
                 </button>
@@ -90,7 +97,7 @@ const BlogIndexPage = ({ data }) => {
             ))}
           </ul>
           {selectedTags.size > 0 && (
-            <button onClick={() => setSelectedTags(new Set())} className={styles.clearButton}>
+            <button onClick={() => setSelectedTags(new Set())} className={`${styles.clearButton} btn btn-secondary`}>
               Clear Tags
             </button>
           )}

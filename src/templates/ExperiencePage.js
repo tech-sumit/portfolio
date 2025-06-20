@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 // import Seo from '../components/seo'; // Optional
 import * as styles from '../styles/content-page.module.css'; // Create this CSS module
 

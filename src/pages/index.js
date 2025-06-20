@@ -1,10 +1,16 @@
 import React from "react";
-import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import Layout from "../components/Layout";
+import Layout from "../components/layout";
 // import Seo from "../components/seo"; // Optional: Import SEO component if you have one
 
+import { useGradient } from '../context/GradientContext';
+
 const IndexPage = () => {
+  const { selectedGradient, isLoading } = useGradient();
+
+  if (isLoading || !selectedGradient) {
+    return <Layout><div>Loading...</div></Layout>;
+  }
   return (
     <Layout>
       {/* Optional: Add SEO component here <Seo title="Home" /> */}
@@ -23,7 +29,21 @@ const IndexPage = () => {
           alignItems: 'center',
           position: 'relative'
         }}>
-          <div className="logo-background-fixed">
+          <div className="logo-background-fixed" style={{
+            position: 'relative'
+          }}>
+            {/* Dynamic gradient background */}
+            <div style={{
+              position: 'absolute',
+              top: '-10px',
+              left: '-10px',
+              right: '-10px',
+              bottom: '-10px',
+              background: selectedGradient?.gradient || 'linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #667eea 100%)',
+              borderRadius: '50%',
+              animation: 'rotateGradient 8s linear infinite',
+              zIndex: -2
+            }} />
             <StaticImage
               src="../images/logo.png"
               alt="Sumit Agrawal Portfolio"
@@ -51,10 +71,14 @@ const IndexPage = () => {
             <span style={{
               fontSize: '1.2rem',
               fontWeight: '600',
-              color: 'var(--accent-primary)',
               textTransform: 'uppercase',
               letterSpacing: '2px',
-              fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+              fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+              background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: selectedGradient?.colors?.[0] || '#667eea' // Fallback color
             }}>
               Portfolio
             </span>
@@ -65,20 +89,35 @@ const IndexPage = () => {
             fontWeight: '900',
             textAlign: 'left',
             lineHeight: '1.1',
-            fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            background: 'linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
+            fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
           }}>
-            Welcome to<br />
-            <span style={{ 
-              color: 'var(--accent-primary)',
-              WebkitTextFillColor: 'var(--accent-primary)'
+            <span style={{
+              background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: selectedGradient?.colors?.[0] || '#667eea' // Fallback color
+            }}>
+              Welcome to
+            </span><br />
+            <span style={{
+              background: selectedGradient?.textGradient || 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: selectedGradient?.colors?.[1] || '#f093fb' // Fallback color
             }}>
               Sumit Agrawal's
             </span><br />
-            Portfolio
+            <span style={{
+              background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: selectedGradient?.colors?.[0] || '#667eea' // Fallback color
+            }}>
+              Portfolio
+            </span>
           </h1>
           <p style={{ 
             fontSize: '1.6rem', 
@@ -102,74 +141,29 @@ const IndexPage = () => {
             Explore my work and get in touch to see how we can create something amazing together.
           </p>
           
-          <nav style={{ 
-            display: 'flex', 
-            flexWrap: 'wrap',
-            gap: '1rem',
-            justifyContent: 'flex-start'
-          }}>
-            <Link to="/about" style={{ 
-              padding: '0.75rem 1.5rem',
-              backgroundColor: 'var(--accent-primary)',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              fontWeight: '500',
-              transition: 'background-color 0.3s ease'
-            }}>
-              About Me
-            </Link>
-            <Link to="/projects" style={{ 
-              padding: '0.75rem 1.5rem',
-              border: '2px solid var(--accent-primary)',
-              color: 'var(--accent-primary)',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              fontWeight: '500',
-              transition: 'all 0.3s ease'
-            }}>
-              Projects
-            </Link>
-            <Link to="/skills" style={{ 
-              padding: '0.75rem 1.5rem',
-              border: '2px solid var(--accent-primary)',
-              color: 'var(--accent-primary)',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              fontWeight: '500',
-              transition: 'all 0.3s ease'
-            }}>
-              Skills
-            </Link>
-            <Link to="/experience" style={{ 
-              padding: '0.75rem 1.5rem',
-              border: '2px solid var(--accent-primary)',
-              color: 'var(--accent-primary)',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              fontWeight: '500',
-              transition: 'all 0.3s ease'
-            }}>
-              Experience
-            </Link>
-            <Link to="/blog" style={{ 
-              padding: '0.75rem 1.5rem',
-              border: '2px solid var(--accent-primary)',
-              color: 'var(--accent-primary)',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              fontWeight: '500',
-              transition: 'all 0.3s ease'
-            }}>
-              Blog
-            </Link>
-          </nav>
+
         </div>
       </div>
       
-      {/* Google Fonts and responsive styles */}
-      <style jsx global>{`
+      {/* Dynamic styles with gradient */}
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        /* Button hover effects */
+        .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          filter: brightness(1.1) contrast(1.1) saturate(1.2) !important;
+        }
+        
+        .btn-primary:hover {
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1) !important;
+          border-width: 2px !important;
+        }
         
         /* Keyframe animations for rotating gradient */
         @keyframes rotateGradient {
@@ -192,15 +186,6 @@ const IndexPage = () => {
           }
         }
         
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%) translateY(-100%) rotate(45deg);
-          }
-          100% {
-            transform: translateX(300%) translateY(300%) rotate(45deg);
-          }
-        }
-        
         /* Logo background with animated gradients and lens effects */
         .logo-background-fixed {
           position: relative !important;
@@ -213,22 +198,6 @@ const IndexPage = () => {
           isolation: isolate !important;
           backdrop-filter: blur(15px);
           overflow: hidden;
-        }
-        
-        /* Animated gradient background - Pink to Blue */
-        .logo-background-fixed::before {
-          content: '';
-          position: absolute;
-          top: -10px;
-          left: -10px;
-          right: -10px;
-          bottom: -10px;
-          background: linear-gradient(90deg, hsla(332, 57%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
-          background: -moz-linear-gradient(90deg, hsla(332, 57%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
-          background: -webkit-linear-gradient(90deg, hsla(332, 57%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
-          border-radius: 50%;
-          animation: rotateGradient 8s linear infinite;
-          z-index: -2;
         }
         
         /* Enhanced lens flare effect for glass-like appearance */
@@ -273,13 +242,6 @@ const IndexPage = () => {
             0 30px 60px rgba(139, 92, 246, 0.15),
             0 15px 40px rgba(124, 58, 237, 0.2),
             0 0 50px rgba(168, 162, 255, 0.2);
-        }
-        
-        /* Light theme - Same pink to blue gradient */
-        body.light-theme .logo-background-fixed::before {
-          background: linear-gradient(90deg, hsla(332, 57%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
-          background: -moz-linear-gradient(90deg, hsla(332, 57%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
-          background: -webkit-linear-gradient(90deg, hsla(332, 57%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
         }
         
         /* Light theme - Enhanced lens effects */

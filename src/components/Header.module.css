@@ -37,7 +37,7 @@
 }
 
 .titleLink:hover {
-    color: #007acc;
+    color: var(--gradient-primary);
     text-decoration: none;
     transform: translateY(-1px);
 }
@@ -46,7 +46,7 @@
 .navContainer {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 .nav {
@@ -74,13 +74,13 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, #007acc, #0366d6);
+    background: var(--gradient-bg);
     transition: width 0.3s ease;
 }
 
 .nav a:hover,
 .nav a.activeLink {
-    color: #007acc;
+    color: var(--gradient-primary);
     text-decoration: none;
     transform: translateY(-1px);
 }

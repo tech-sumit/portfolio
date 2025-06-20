@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 import * as styles from '../styles/content-page.module.css';
 // Import icons
 import { 

@@ -9,7 +9,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 
-import Header from "./Header";
+import Header from "./header";
 import Footer from "./Footer";
 import ChatbotWidget from "./ChatbotWidget";
 import * as styles from './Layout.module.css'; // CSS Module for Layout

@@ -31,14 +31,13 @@ const Modal = ({ title, children, onClose, styles }) => {
       className={overlayClass}
       onClick={onClose}
       onKeyDown={handleKeyDown}
-      role="button"
+      role="dialog"
       tabIndex={0}
       aria-label="Close modal"
-      aria-modal="true" // Indicate it's a modal dialog
+      aria-modal="true"
     >
       <div className={contentClass} onClick={handleContentClick}>
-        {/* Optional: Add a heading role if title is always present */}
-        {title && <h2 role="heading" aria-level="2">{title}</h2>}
+        {title && <h2>{title}</h2>}
         <button className={closeButtonClass} onClick={onClose} aria-label="Close">
           &times;
         </button>

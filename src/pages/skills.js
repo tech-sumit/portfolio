@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, graphql } from 'gatsby';
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 import Modal from '../components/Modal'; // Import the external Modal component
 import * as styles from '../styles/skills.module.css';
 // Import specific icons
@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fa';
 import {
   SiGatsby, SiNextdotjs, SiTypescript, SiKubernetes, SiGooglecloud,
-  SiMicrosoftazure, // Revert back to SiMicrosoftazure
   SiMongodb, SiPostgresql, SiRedis, SiTerraform, SiJenkins, SiSolidity, SiRust, SiFlask, SiDjango
   // Add more Si icons as needed
 } from 'react-icons/si';
@@ -149,14 +148,14 @@ const SkillsPage = ({ data }) => {
   }, [skillCategories, experienceHtml, projectsHtml, data.allBlogPosts?.nodes]);
 
   // --- Event Handlers ---
-  const handleSkillClick = (skillName) => {
+  const handleSkillClick = useCallback((skillName) => {
     setSelectedSkill(skillName);
     setRelatedContent({
       posts: skillConnections.postsBySkill[skillName] || [],
       experiences: skillConnections.experiencesBySkill[skillName] || [],
       projects: skillConnections.projectsBySkill[skillName] || [],
     });
-  };
+  }, [skillConnections]);
 
   const closeModal = () => {
     setSelectedSkill(null);
@@ -187,7 +186,8 @@ const SkillsPage = ({ data }) => {
     // Cloud & DevOps
     if (lowerSkill.includes('aws') || lowerSkill.includes('amazonwebservices')) return <FaAws title="AWS" />;
     if (lowerSkill.includes('gcp') || lowerSkill.includes('googlecloud')) return <SiGooglecloud title="GCP" />;
-    if (lowerSkill.includes('azure') || lowerSkill.includes('microsoftazure')) return <SiMicrosoftazure title="Azure" />;
+    // Azure icon not available in current react-icons version
+    // if (lowerSkill.includes('azure') || lowerSkill.includes('microsoftazure')) return <SiAzure title="Azure" />;
     if (lowerSkill.includes('docker')) return <FaDocker title="Docker" />;
     if (lowerSkill.includes('kubernetes') || lowerSkill === 'k8s') return <SiKubernetes title="Kubernetes" />;
     if (lowerSkill.includes('terraform')) return <SiTerraform title="Terraform" />;
@@ -243,7 +243,7 @@ const SkillsPage = ({ data }) => {
       }
     }
     // Depend on skillCategories and skillConnections being populated
-  }, [skillCategories, skillConnections]);
+  }, [skillCategories, skillConnections, handleSkillClick]);
 
   return (
     <Layout>

@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql } from "gatsby";
-import Layout from "../components/Layout"; // Import Layout
+import Layout from "../components/layout"; // Import Layout
 // import Seo from "../components/seo"; // Optional: Import SEO component
 
 // Basic Layout component (assuming you have one or will create one)

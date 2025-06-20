@@ -1,6 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from './src/context/ThemeContext';
+import { GradientProvider } from './src/context/GradientContext';
 import "./src/styles/global.css"
+
+
 
 /**
  * Implement Gatsby's Browser APIs in this file.
@@ -9,7 +12,11 @@ import "./src/styles/global.css"
  */
 
 export const wrapRootElement = ({ element }) => {
-  return <ThemeProvider>{element}</ThemeProvider>;
+  return (
+    <GradientProvider>
+      <ThemeProvider>{element}</ThemeProvider>
+    </GradientProvider>
+  );
 };
 
 // You can delete this file if you're not using it
