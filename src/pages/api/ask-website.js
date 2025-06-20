@@ -1,19 +1,17 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import fs from 'fs/promises'; // Use promises version of fs
+import fs from 'fs/promises';
 import path from 'path';
 
 // --- Configuration ---
-// Ensure the API key is loaded from environment variables server-side
-// IMPORTANT: Set GOOGLE_AI_API_KEY in your hosting environment (Netlify, Vercel, etc.)
 const apiKey = process.env.GOOGLE_AI_API_KEY;
-const modelName = "gemini-1.5-flash-latest"; // Or another suitable model
+const modelName = "gemini-1.5-flash-latest";
 
 // --- Helper Function to read Markdown Files ---
 async function getWebsiteContext() {
   const contentDir = path.resolve(process.cwd(), 'src/content');
   const resumeDir = path.join(contentDir, 'resume');
   const pagesDir = path.join(contentDir, 'pages');
-  const postsDir = path.join(contentDir, 'posts'); // Define posts directory
+  const postsDir = path.join(contentDir, 'posts');
 
   const staticFilePaths = {
     experience: path.join(resumeDir, 'experience.md'),
@@ -45,7 +43,6 @@ async function getWebsiteContext() {
         const filePath = path.join(postsDir, filename);
         try {
           const content = await fs.readFile(filePath, 'utf-8');
-          // Optional: Extract title from frontmatter if needed, for now just add content
           context += `\n\n--- Blog Post: ${filename} ---\n\n${content}`;
         } catch (error) {
           console.error(`Error reading blog post ${filePath}:`, error.message);
@@ -56,27 +53,32 @@ async function getWebsiteContext() {
   } catch (error) {
       console.error(`Error reading posts directory ${postsDir}:`, error.message);
       errors.push(`Could not read blog posts directory.`);
-      // Decide if failure to read the posts dir is critical
   }
-
 
   if (!context && errors.length > 0) {
-      // Check if context is still empty even after trying all reads
       throw new Error("Could not read any website content files.");
   }
-
-  
 
   return context.trim();
 }
 
-
-// --- Main Handler Function (Gatsby Convention) ---
+// --- Gatsby Server-Side API Handler ---
 export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight OPTIONS request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // 1. Check Method and API Key
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
+  
   if (!apiKey) {
     console.error('GOOGLE_AI_API_KEY is not set in the environment.');
     return res.status(500).json({ error: 'AI service not configured.' });
@@ -97,7 +99,6 @@ export default async function handler(req, res) {
     const websiteContext = await getWebsiteContext();
 
     // 5. Construct Prompt
-    // Basic prompt - can be refined significantly
     const prompt = `You are a helpful assistant knowledgeable about Sumit Agrawal based *only* on the provided website content.
 Answer the following user question strictly based on the information given below.
 Do not make assumptions or use external knowledge. If the answer is not found in the text, say so.
@@ -111,11 +112,9 @@ User Question: ${question}
 Answer:`;
 
     // 6. Call Gemini API
-    
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
 
     // 7. Return Response
     return res.status(200).json({ answer: text.trim() });
@@ -128,7 +127,6 @@ Answer:`;
     } else if (error.message.includes('generateContent')) {
         errorMessage = 'Error communicating with the AI service.';
     }
-    // Consider more specific error handling based on potential API errors
     return res.status(500).json({ error: errorMessage });
   }
 } 
