@@ -6,12 +6,6 @@ order: 4
 status: published
 ---
 
-## Personal & Key Projects
-
-This section highlights projects where I played a key role in the end-to-end design, development, and deployment.
-
----
-
 **Appadvertieing.AI** | [Website](https://www.appadvertising.ai/)
 
 *Technologies: FastAPI, OpenAI APIs, Google cloud platform, solutions architecture, python, word2vec, Google TTS, ReactJS, Next.JS, Postgresql*

@@ -8,11 +8,6 @@
   padding: 1.5rem 2rem;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  /* Add max-width and centering like skills page */
-  max-width: 1400px; 
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 0; /* Ensure vertical margins are controlled by margin-bottom */
 }
 

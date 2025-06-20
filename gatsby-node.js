@@ -175,10 +175,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const pageTemplate = path.resolve(`./src/templates/page.js`);
   const postTemplate = path.resolve(`./src/templates/post.js`);
   const skillsPageComponent = path.resolve(`./src/pages/skills.js`);
-  const experiencePageComponent = path.resolve(`./src/templates/ExperiencePage.js`);
-  const projectsPageComponent = path.resolve(`./src/templates/ProjectsPage.js`);
+  const experiencePageComponent = path.resolve(`./src/pages/experience.js`);
+  const projectsPageComponent = path.resolve(`./src/pages/projects.js`);
   // Add the new About template path
-  const aboutPageComponent = path.resolve(`./src/templates/AboutPage.js`);
+  const aboutPageComponent = path.resolve(`./src/pages/about.js`);
 
   // Query for markdown nodes
   const result = await graphql(`

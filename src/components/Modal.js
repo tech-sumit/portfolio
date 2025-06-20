@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // Reusable Modal Component
 const Modal = ({ title, children, onClose, styles }) => {
+  const modalRef = useRef(null);
 
-  // Keydown handler for accessibility
-  const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
-      onClose();
+  // Focus management
+  useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.focus();
     }
-  };
+  }, []);
 
   // Handle overlay click
   const handleOverlayClick = (event) => {
@@ -18,8 +19,21 @@ const Modal = ({ title, children, onClose, styles }) => {
     }
   };
 
+  // Handle overlay keyboard events
+  const handleOverlayKeyDown = (event) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  };
+
   // Prevent modal closing when clicking inside content
   const handleContentClick = (e) => {
+    e.stopPropagation();
+  };
+
+  // Handle content keyboard events (for accessibility)
+  const handleContentKeyDown = (e) => {
+    // Don't close modal when pressing keys inside content
     e.stopPropagation();
   };
 
@@ -30,18 +44,22 @@ const Modal = ({ title, children, onClose, styles }) => {
 
   return (
     <div
+      ref={modalRef}
       className={overlayClass}
       onClick={handleOverlayClick}
-      onKeyDown={handleKeyDown}
+      onKeyDown={handleOverlayKeyDown}
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? "modal-title" : undefined}
       aria-label={title ? undefined : "Modal dialog"}
+      tabIndex={-1}
     >
       <div 
         className={contentClass} 
         onClick={handleContentClick}
+        onKeyDown={handleContentKeyDown}
         role="document"
+        tabIndex={-1}
       >
         {title && <h2 id="modal-title">{title}</h2>}
         <button 
