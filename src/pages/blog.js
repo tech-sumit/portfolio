@@ -166,16 +166,15 @@ const BlogIndexPage = ({ data }) => {
                 <li key={group.tag}>
                   <button
                     onClick={() => handleTagClick(group.tag)}
-                    className={`${styles.tagButton} ${selectedTags.has(group.tag) ? styles.activeTag : ''} ${selectedTags.has(group.tag) ? 'btn btn-primary' : 'btn btn-secondary'}`}
                     style={{
                       width: '100%',
                       padding: '0.8rem 1rem',
-                      border: `2px solid ${selectedTags.has(group.tag) ? selectedGradient?.colors?.[0] : selectedGradient?.colors?.[0] + '40'} || '#667eea'`,
+                      border: `2px solid ${selectedTags.has(group.tag) ? (selectedGradient?.colors?.[0] || '#667eea') : (selectedGradient?.colors?.[0] || '#667eea') + '40'}`,
                       borderRadius: '8px',
                       background: selectedTags.has(group.tag) 
                         ? `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}20, ${selectedGradient?.colors?.[1] || '#764ba2'}20)`
                         : 'transparent',
-                      color: selectedTags.has(group.tag) ? selectedGradient?.colors?.[0] || '#667eea' : 'var(--text-secondary)',
+                      color: selectedTags.has(group.tag) ? (selectedGradient?.colors?.[0] || '#667eea') : '#333333',
                       fontSize: '0.9rem',
                       fontWeight: '500',
                       cursor: 'pointer',
@@ -200,19 +199,19 @@ const BlogIndexPage = ({ data }) => {
             {selectedTags.size > 0 && (
               <button 
                 onClick={() => setSelectedTags(new Set())} 
-                className={`${styles.clearButton} btn btn-secondary`}
                 style={{
                   width: '100%',
                   marginTop: '1rem',
-                  padding: '0.8rem',
-                  border: '2px solid var(--text-tertiary)',
+                  padding: '0.8rem 1rem',
+                  border: `2px solid ${(selectedGradient?.colors?.[0] || '#667eea') + '40'}`,
                   borderRadius: '8px',
                   background: 'transparent',
-                  color: 'var(--text-tertiary)',
+                  color: '#333333',
                   fontSize: '0.9rem',
                   fontWeight: '500',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  textAlign: 'center'
                 }}
               >
                 Clear Tags
@@ -336,14 +335,14 @@ const BlogIndexPage = ({ data }) => {
           border-color: ${selectedGradient?.colors?.[0] || '#667eea'}40;
         }
         
-        .${styles.tagButton}:hover {
+        .${styles.sidebar} button:hover {
           border-color: ${selectedGradient?.colors?.[0] || '#667eea'} !important;
           color: ${selectedGradient?.colors?.[0] || '#667eea'} !important;
         }
         
-        .${styles.clearButton}:hover {
-          border-color: var(--text-primary) !important;
-          color: var(--text-primary) !important;
+        .${styles.sidebar} button:last-child:hover {
+          border-color: ${selectedGradient?.colors?.[0] || '#667eea'} !important;
+          color: ${selectedGradient?.colors?.[0] || '#667eea'} !important;
         }
         
         @media (max-width: 768px) {

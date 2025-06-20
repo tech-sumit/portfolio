@@ -59,12 +59,13 @@ function parseAboutHtml(html) {
 // Helper function to get icon based on list item content
 const getIconForContact = (text) => {
   const lowerText = text.toLowerCase();
-  if (lowerText.startsWith('email:')) return <FaEnvelope />;
-  if (lowerText.startsWith('phone:')) return <FaPhone />;
-  if (lowerText.startsWith('location:')) return <FaMapMarkerAlt />;
-  if (lowerText.startsWith('linkedin:')) return <FaLinkedin />;
-  if (lowerText.startsWith('github:')) return <FaGithub />;
-  if (lowerText.startsWith('instagram:')) return <FaInstagram />;
+  const firstWord = lowerText.split(' ')[0];
+  if (firstWord === 'email') return <FaEnvelope />;
+  if (firstWord === 'phone') return <FaPhone />;
+  if (firstWord === 'location') return <FaMapMarkerAlt />;
+  if (firstWord === 'linkedin') return <FaLinkedin />;
+  if (firstWord === 'github') return <FaGithub />;
+  if (firstWord === 'instagram') return <FaInstagram />;
   // Add more checks if needed
   return null;
 };
@@ -122,98 +123,150 @@ const AboutPage = () => {
           maxWidth: '600px',
           margin: '0 auto'
         }}>
-          Get to know more about me, my background, and how to connect
+          Discover my journey, passion for technology, and let's build something amazing together
         </p>
       </div>
 
-      {/* Content Sections */}
+      {/* Content Sections - Side by Side Layout */}
       <div style={{ 
-        maxWidth: '1200px', 
-        margin: '0 auto', 
-        padding: '0 2rem 4rem',
+        width: '100%',
+        padding: '0 1rem 4rem',
         fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
         {parsedSections.length > 0 ? (
-          parsedSections.map((section, index) => (
-            <section key={index} className={styles.contentCard} style={{
-              marginBottom: '3rem',
-              padding: '2.5rem',
-              background: 'var(--background-secondary)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              border: '1px solid var(--border-color)'
+          <div style={{
+            display: 'flex',
+            gap: '2rem',
+            alignItems: 'flex-start',
+            flexWrap: 'wrap'
+          }}>
+            {/* About Me Content - 70% width */}
+            <div style={{
+              flex: '1 1 65%',
+              minWidth: '300px'
             }}>
-              {/* Render section title with gradient */}
-              {section.title && (
-                <h2 style={{
-                  fontSize: '2.2rem',
-                  fontWeight: '700',
-                  marginBottom: '1.5rem',
-                  background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  color: selectedGradient?.colors?.[0] || '#667eea'
-                }}>
-                  {section.title}
-                </h2>
-              )}
-
-              {/* Handle Contact Info section specifically */}
-              {section.title.toLowerCase().includes('contact') && section.listItems.length > 0 ? (
-                <ul className={styles.contactList} style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  display: 'grid',
-                  gap: '1rem',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
-                }}>
-                  {section.listItems.map((itemHtml, itemIndex) => {
-                    // Create a temporary element to easily extract text content
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = itemHtml;
-                    const itemText = tempDiv.textContent || '';
-                    const icon = getIconForContact(itemText);
-                    
-                    return (
-                      <li key={itemIndex} className={styles.contactItem} style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                        padding: '1rem',
-                        background: 'var(--background-tertiary)',
-                        borderRadius: '12px',
-                        border: '1px solid var(--border-color)',
-                        transition: 'all 0.3s ease'
+              {parsedSections
+                .filter(section => !section.title.toLowerCase().includes('contact'))
+                .map((section, index) => (
+                  <section key={index} className={styles.contentCard} style={{
+                    marginBottom: '3rem',
+                    padding: '2.5rem',
+                    background: 'var(--background-secondary)',
+                    borderRadius: '16px',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    border: '1px solid var(--border-color)'
+                  }}>
+                    {/* Render section title with gradient */}
+                    {section.title && (
+                      <h2 style={{
+                        fontSize: '2.2rem',
+                        fontWeight: '700',
+                        marginBottom: '1.5rem',
+                        background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        color: selectedGradient?.colors?.[0] || '#667eea'
                       }}>
-                        {icon && (
-                          <span className={styles.contactIcon} style={{
-                            fontSize: '1.5rem',
-                            color: selectedGradient?.colors?.[0] || '#667eea',
-                            minWidth: '24px'
-                          }}>
-                            {icon}
-                          </span>
-                        )}
-                        {/* Render the original HTML to preserve links (like mailto:) */}
-                        <span className={styles.contactText} style={{
-                          fontSize: '1.1rem',
-                          fontWeight: '500'
-                        }} dangerouslySetInnerHTML={{ __html: itemHtml }} />
-                      </li>
-                    );
-                  })}
-                </ul>
-              ) : (
-                /* Render standard content for other sections */
-                <div style={{
-                  fontSize: '1.1rem',
-                  lineHeight: '1.7',
-                  color: 'var(--text-primary)'
-                }} dangerouslySetInnerHTML={{ __html: section.contentHtml }} />
-              )}
-            </section>
-          ))
+                        {section.title}
+                      </h2>
+                    )}
+                    {/* Render standard content */}
+                    <div style={{
+                      fontSize: '1.1rem',
+                      lineHeight: '1.7',
+                      color: 'var(--text-primary)'
+                    }} dangerouslySetInnerHTML={{ __html: section.contentHtml }} />
+                  </section>
+                ))}
+            </div>
+
+            {/* Contact Information - 30% width */}
+            <div style={{
+              flex: '0 1 30%',
+              minWidth: '280px'
+            }}>
+              {parsedSections
+                .filter(section => section.title.toLowerCase().includes('contact'))
+                .map((section, index) => (
+                  <section key={index} className={styles.contentCard} style={{
+                    padding: '1.8rem',
+                    background: 'var(--background-secondary)',
+                    borderRadius: '16px',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    border: '1px solid var(--border-color)',
+                    position: 'sticky',
+                    top: '2rem'
+                  }}>
+                    {/* Render section title with gradient */}
+                    {section.title && (
+                      <h2 style={{
+                        fontSize: '1.8rem',
+                        fontWeight: '700',
+                        marginBottom: '1.2rem',
+                        background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        color: selectedGradient?.colors?.[0] || '#667eea'
+                      }}>
+                        {section.title}
+                      </h2>
+                    )}
+                    {/* Handle Contact Info section */}
+                    {section.listItems.length > 0 && (
+                      <ul className={styles.contactList} style={{
+                        listStyle: 'none',
+                        padding: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.8rem'
+                      }}>
+                        {section.listItems.map((itemHtml, itemIndex) => {
+                          // Create a temporary element to easily extract text content
+                          const tempDiv = document.createElement('div');
+                          tempDiv.innerHTML = itemHtml;
+                          const itemText = tempDiv.textContent || '';
+                          const icon = getIconForContact(itemText);
+                          
+                          // Clean up the HTML content to remove colons
+                          const cleanHtml = itemHtml.replace(/^([^:]+):\s*/, '$1 ');
+                          
+                          return (
+                            <li key={itemIndex} className={styles.contactItem} style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.8rem',
+                              padding: '0.8rem',
+                              background: 'var(--background-tertiary)',
+                              borderRadius: '10px',
+                              border: '1px solid var(--border-color)',
+                              transition: 'all 0.3s ease'
+                            }}>
+                              {icon && (
+                                <span className={styles.contactIcon} style={{
+                                  fontSize: '1.2rem',
+                                  color: selectedGradient?.colors?.[0] || '#667eea',
+                                  minWidth: '20px'
+                                }}>
+                                  {icon}
+                                </span>
+                              )}
+                              {/* Render the cleaned HTML to preserve links */}
+                              <span className={styles.contactText} style={{
+                                fontSize: '0.95rem',
+                                fontWeight: '500',
+                                wordBreak: 'break-word'
+                              }} dangerouslySetInnerHTML={{ __html: cleanHtml }} />
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </section>
+                ))}
+            </div>
+          </div>
         ) : (
           /* Fallback if parsing fails or content is empty */
           <section className={styles.contentCard} style={{

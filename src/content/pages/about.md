@@ -17,8 +17,8 @@ I thrive on turning complex challenges into seamless experiences, blending deep 
 
 ## Contact Information
 
-* Email: [mr.sumitagrawal.17@gmail.com](mailto:mr.sumitagrawal.17@gmail.com)
-* Phone: +971585780926
-* LinkedIn: [agrawal-sumit](https://www.linkedin.com/in/agrawal-sumit/)
-* GitHub: [tech-sumit](https://github.com/tech-sumit)
-* Instagram: [mr.sumitagrawal](https://www.instagram.com/mr.sumitagrawal/)
+* Email [mr.sumitagrawal.17@gmail.com](mailto:mr.sumitagrawal.17@gmail.com)
+* Phone +971585780926
+* LinkedIn [agrawal-sumit](https://www.linkedin.com/in/agrawal-sumit/)
+* GitHub [tech-sumit](https://github.com/tech-sumit)
+* Instagram [mr.sumitagrawal](https://www.instagram.com/mr.sumitagrawal/)

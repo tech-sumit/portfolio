@@ -9,7 +9,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Sumit Agrawal's Portfolio`,
+    title: `Sumit Agrawal {.dev}`,
     description: `Personal portfolio website for Sumit Agrawal.`,
     author: `Sumit Agrawal`,
     siteUrl: `https://sumitagrawal.dev`,
