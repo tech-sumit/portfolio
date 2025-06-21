@@ -3,14 +3,21 @@ import { Link } from "gatsby";
 import * as styles from './Header.module.css'; // We'll create this CSS Module next
 import ThemeToggle from './ThemeToggle'; // Import the toggle
 import { useGradient } from '../context/GradientContext';
+import { useScrollHeader } from '../hooks/useScrollHeader';
 import logoImage from '../images/logo.png'; // Direct import
 
 const Header = ({ siteTitle }) => {
   const { selectedGradient, isLoading } = useGradient();
+  const isScrolled = useScrollHeader();
+
+  const getHeaderClass = () => {
+    if (isScrolled) return `${styles.header} ${styles.headerScrolled}`;
+    return `${styles.header} ${styles.headerBottom}`;
+  };
 
   if (isLoading) {
     return (
-      <header className={styles.header}>
+      <header className={getHeaderClass()}>
         <div className={styles.headerContent}>
           <Link to="/" className={styles.titleLink}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -62,7 +69,7 @@ const Header = ({ siteTitle }) => {
   }
 
   return (
-    <header className={styles.header}>
+    <header className={getHeaderClass()}>
       <div className={styles.headerContent}>
         <Link to="/" className={styles.titleLink}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -73,8 +80,7 @@ const Header = ({ siteTitle }) => {
                 borderRadius: '50%',
                 width: '40px',
                 height: '40px',
-                objectFit: 'cover',
-                border: `2px solid ${selectedGradient?.colors[0] || '#007acc'}`
+                objectFit: 'cover'
               }}
             />
                          <span style={{

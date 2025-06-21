@@ -12,6 +12,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import Header from "./header";
 import Footer from "./Footer";
 import ChatbotWidget from "./ChatbotWidget";
+import { useScrollHeader } from '../hooks/useScrollHeader';
 import * as styles from './Layout.module.css'; // CSS Module for Layout
 
 const Layout = ({ children }) => {
@@ -25,10 +26,17 @@ const Layout = ({ children }) => {
     }
   `);
 
+  const isScrolled = useScrollHeader();
+
+  const getMainContentClass = () => {
+    if (isScrolled) return `${styles.mainContent} ${styles.scrolledContent}`;
+    return `${styles.mainContent} ${styles.floatingHeaderContent}`;
+  };
+
   return (
     <div className={styles.layoutContainer}>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <main className={styles.mainContent}>{children}</main>
+      <main className={getMainContentClass()}>{children}</main>
       <Footer />
       <ChatbotWidget />
     </div>

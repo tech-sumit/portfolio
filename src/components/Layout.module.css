@@ -8,4 +8,22 @@
   flex: 1; /* Ensure main content takes up available space */
   padding-top: 70px; /* Account for fixed header - matches new header height */
   /* The max-width and horizontal centering are handled in global.css main {} */
+}
+
+.floatingHeaderContent {
+  padding-top: 0; /* Remove top padding since header starts at bottom */
+  padding-bottom: 100px; /* Add bottom padding to account for bottom header */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrolledContent {
+  padding-top: 70px; /* Normal top padding when header is at top */
+  padding-bottom: 0; /* Remove bottom padding when header is at top */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 768px) {
+  .scrolledContent {
+    padding-top: 60px; /* Adjusted for mobile header height */
+  }
 } 
