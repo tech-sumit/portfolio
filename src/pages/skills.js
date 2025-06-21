@@ -311,7 +311,7 @@ Generate the JSON response for ${skillName}:`;
       <HeroSection 
         imageComponent={
           <StaticImage
-            src="../images/skills.png"
+            src="../images/skills.webp"
             alt="My Skills"
             placeholder="blurred"
             layout="constrained"

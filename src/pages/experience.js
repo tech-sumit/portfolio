@@ -122,7 +122,7 @@ const ExperiencePage = () => {
       <HeroSection 
         imageComponent={
           <StaticImage
-            src="../images/work-exp.png"
+            src="../images/work-exp.webp"
             alt="Work Experience"
             placeholder="blurred"
             layout="constrained"

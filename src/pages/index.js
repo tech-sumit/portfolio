@@ -42,7 +42,7 @@ const IndexPage = () => {
               zIndex: -2
             }} />
             <StaticImage
-              src="../images/logo.png"
+              src="../images/logo.webp"
               alt="Sumit Agrawal Portfolio"
               placeholder="blurred"
               layout="constrained"

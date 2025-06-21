@@ -104,7 +104,7 @@ const AboutPage = () => {
       <HeroSection 
         imageComponent={
           <StaticImage
-            src="../images/home-page.png"
+            src="../images/home-page.webp"
             alt="About Me"
             placeholder="blurred"
             layout="constrained"

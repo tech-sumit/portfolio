@@ -4,7 +4,7 @@ import * as styles from './Header.module.css'; // We'll create this CSS Module n
 import ThemeToggle from './ThemeToggle'; // Import the toggle
 import { useGradient } from '../context/GradientContext';
 import { useScrollHeader } from '../hooks/useScrollHeader';
-import logoImage from '../images/logo.png'; // Direct import
+import logoImage from '../images/logo-header.webp'; // Direct import - optimized for header
 
 const Header = ({ siteTitle }) => {
   const { selectedGradient, isLoading } = useGradient();

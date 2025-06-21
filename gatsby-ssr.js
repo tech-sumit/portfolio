@@ -11,7 +11,7 @@ const { GradientProvider } = require('./src/context/GradientContext');
 /**
  * @type {import('gatsby').GatsbySSR['onRenderBody']}
  */
-exports.onRenderBody = ({ setHtmlAttributes, setHeadComponents }) => {
+exports.onRenderBody = ({ setHtmlAttributes, setHeadComponents, setPreBodyComponents }) => {
   setHtmlAttributes({ lang: `en` })
   
   // Set initial gradient CSS variables for SSR
@@ -24,10 +24,56 @@ exports.onRenderBody = ({ setHtmlAttributes, setHeadComponents }) => {
       }
   `
   
+  // Theme initialization script to prevent flash
+  const themeScript = `
+    (function() {
+      function getInitialTheme() {
+        const persistedTheme = window.localStorage.getItem('theme');
+        const hasPersistedTheme = typeof persistedTheme === 'string';
+        
+        if (hasPersistedTheme) {
+          return persistedTheme;
+        }
+        
+        const mql = window.matchMedia('(prefers-color-scheme: light)');
+        const hasMediaQueryPreference = typeof mql.matches === 'boolean';
+        
+        if (hasMediaQueryPreference) {
+          return mql.matches ? 'light' : 'dark';
+        }
+        
+        return 'dark';
+      }
+      
+      const theme = getInitialTheme();
+      const root = document.body;
+      
+      // Add preload class to prevent transitions during theme setup
+      root.classList.add('preload');
+      
+      root.classList.remove('light-theme', 'dark-theme');
+      if (theme === 'light') {
+        root.classList.add('light-theme');
+      }
+      
+      // Remove preload class after a brief delay to allow transitions
+      setTimeout(() => {
+        root.classList.remove('preload');
+      }, 100);
+    })();
+  `
+  
   setHeadComponents([
     React.createElement('style', {
       key: 'initial-gradient',
       dangerouslySetInnerHTML: { __html: initialGradientCSS }
+    })
+  ])
+  
+  setPreBodyComponents([
+    React.createElement('script', {
+      key: 'theme-script',
+      dangerouslySetInnerHTML: { __html: themeScript }
     })
   ])
 }
