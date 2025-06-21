@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
+import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import HeroSection from '../components/HeroSection';
+import GradientText from '../components/GradientText';
 import { useGradient } from '../context/GradientContext';
 // import Seo from '../components/seo'; // Optional
 import * as styles from '../styles/content-page.module.css'; // Create this CSS module
@@ -116,40 +119,31 @@ const ExperiencePage = () => {
 
   return (
     <Layout>
-      {/* Page Header with consistent styling */}
-      <div style={{ 
-        padding: '4rem 2rem 2rem',
-        textAlign: 'center',
-        fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-      }}>
-        <h1 style={{
-          fontSize: '4rem',
-          fontWeight: '900',
-          marginBottom: '1rem',
-          background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          color: selectedGradient?.colors?.[0] || '#667eea'
-        }}>
-          {frontmatter.title}
-        </h1>
-        <p style={{
-          fontSize: '1.3rem',
-          color: 'var(--text-secondary)',
-          fontWeight: '500',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          My professional journey and career highlights
-        </p>
-      </div>
+      <HeroSection 
+        imageComponent={
+          <StaticImage
+            src="../images/work-exp.png"
+            alt="Work Experience"
+            placeholder="blurred"
+            layout="constrained"
+            width={550}
+            height={550}
+            style={{ 
+              borderRadius: '20px'
+            }}
+          />
+        }
+        subtitle="Career Journey"
+        title={frontmatter.title}
+        description="My professional journey and career highlights"
+        additionalDescription="Explore my work experience, technologies used, and professional achievements."
+      />
 
       {/* Experience Content */}
       <div style={{ 
         maxWidth: '1200px', 
         margin: '0 auto', 
-        padding: '0 2rem 4rem',
+        padding: '4rem 2rem 4rem',
         fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
         {jobs.length > 0 ? (
@@ -167,18 +161,9 @@ const ExperiencePage = () => {
                 marginBottom: '2rem'
               }}>
                 {job.company && (
-                  <h3 className={styles.jobCompany} style={{
-                    fontSize: '2rem',
-                    fontWeight: '700',
-                    marginBottom: '0.5rem',
-                    background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    color: selectedGradient?.colors?.[0] || '#667eea'
-                  }}>
+                  <GradientText as="h3" className={styles.jobCompany} fontSize="2rem" fontWeight="700" marginBottom="0.5rem" textAlign="left">
                     {job.company}
-                  </h3>
+                  </GradientText>
                 )}
                 {job.title && (
                   <p className={styles.jobTitle} style={{
@@ -298,6 +283,8 @@ const ExperiencePage = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
+
+        
         .${styles.contentCard}:hover {
           transform: translateY(-4px);
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
@@ -308,6 +295,44 @@ const ExperiencePage = () => {
           background: linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}40, ${selectedGradient?.colors?.[1] || '#764ba2'}40) !important;
           border-color: ${selectedGradient?.colors?.[0] || '#667eea'} !important;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+          .hero-container {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 1rem !important;
+            min-height: 100vh !important;
+            gap: 2rem !important;
+          }
+          .image-container {
+            flex: none !important;
+            margin-bottom: 2rem !important;
+          }
+          .image-container > div {
+            padding: 1rem !important;
+          }
+          .content-container {
+            padding-left: 0 !important;
+          }
+          .content-container h1 {
+            font-size: 2.5rem !important;
+            text-align: center !important;
+            margin-bottom: 1.5rem !important;
+          }
+          .content-container p {
+            text-align: center !important;
+            font-size: 1.2rem !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .content-container h1 {
+            font-size: 2rem !important;
+          }
+          .content-container p {
+            font-size: 1.1rem !important;
+          }
         }
       `}</style>
     </Layout>

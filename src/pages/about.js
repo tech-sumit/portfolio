@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
+import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import HeroSection from '../components/HeroSection';
+import GradientText from '../components/GradientText';
 import { useGradient } from '../context/GradientContext';
 import * as styles from '../styles/content-page.module.css';
 // Import icons
@@ -98,39 +101,30 @@ const AboutPage = () => {
 
   return (
     <Layout>
-      {/* Page Header with consistent styling */}
-      <div style={{ 
-        padding: '4rem 2rem 2rem',
-        textAlign: 'center',
-        fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-      }}>
-        <h1 style={{
-          fontSize: '4rem',
-          fontWeight: '900',
-          marginBottom: '1rem',
-          background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          color: selectedGradient?.colors?.[0] || '#667eea'
-        }}>
-          {frontmatter.title}
-        </h1>
-        <p style={{
-          fontSize: '1.3rem',
-          color: 'var(--text-secondary)',
-          fontWeight: '500',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          Discover my journey, passion for technology, and let's build something amazing together
-        </p>
-      </div>
+      <HeroSection 
+        imageComponent={
+          <StaticImage
+            src="../images/home-page.png"
+            alt="About Me"
+            placeholder="blurred"
+            layout="constrained"
+            width={550}
+            height={550}
+            style={{ 
+              borderRadius: '20px'
+            }}
+          />
+        }
+        subtitle="Personal Story"
+        title={frontmatter.title}
+        description="Discover my journey, passion for technology"
+        additionalDescription="Learn about my background, interests, and let's build something amazing together."
+      />
 
       {/* Content Sections - Side by Side Layout */}
       <div style={{ 
         width: '100%',
-        padding: '0 1rem 4rem',
+        padding: '4rem 1rem 4rem',
         fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
         {parsedSections.length > 0 ? (
@@ -198,12 +192,12 @@ const AboutPage = () => {
                     position: 'sticky',
                     top: '2rem'
                   }}>
-                    {/* Render section title with gradient */}
+                    {/* Render Contact section title with gradient */}
                     {section.title && (
                       <h2 style={{
                         fontSize: '1.8rem',
                         fontWeight: '700',
-                        marginBottom: '1.2rem',
+                        marginBottom: '1.5rem',
                         background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
@@ -213,69 +207,52 @@ const AboutPage = () => {
                         {section.title}
                       </h2>
                     )}
-                    {/* Handle Contact Info section */}
-                    {section.listItems.length > 0 && (
-                      <ul className={styles.contactList} style={{
-                        listStyle: 'none',
-                        padding: 0,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.8rem'
-                      }}>
-                        {section.listItems.map((itemHtml, itemIndex) => {
-                          // Create a temporary element to easily extract text content
-                          const tempDiv = document.createElement('div');
-                          tempDiv.innerHTML = itemHtml;
-                          const itemText = tempDiv.textContent || '';
-                          const icon = getIconForContact(itemText);
-                          
-                          // Clean up the HTML content to remove colons
-                          const cleanHtml = itemHtml.replace(/^([^:]+):\s*/, '$1 ');
-                          
-                          return (
-                            <li key={itemIndex} className={styles.contactItem} style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.8rem',
-                              padding: '0.8rem',
-                              background: 'var(--background-tertiary)',
-                              borderRadius: '10px',
-                              border: '1px solid var(--border-color)',
-                              transition: 'all 0.3s ease'
+                    {/* Render contact items with icons */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '1rem'
+                    }}>
+                      {section.listItems.map((item, itemIndex) => {
+                        const icon = getIconForContact(item);
+                        return (
+                          <div key={itemIndex} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.8rem',
+                            padding: '0.8rem',
+                            borderRadius: '10px',
+                            background: `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}10, ${selectedGradient?.colors?.[1] || '#764ba2'}10)`,
+                            border: `1px solid ${selectedGradient?.colors?.[0] || '#667eea'}20`,
+                            transition: 'all 0.3s ease'
+                          }}>
+                            <div style={{ 
+                              fontSize: '1.2rem', 
+                              color: selectedGradient?.colors?.[0] || '#667eea' 
                             }}>
-                              {icon && (
-                                <span className={styles.contactIcon} style={{
-                                  fontSize: '1.2rem',
-                                  color: selectedGradient?.colors?.[0] || '#667eea',
-                                  minWidth: '20px'
-                                }}>
-                                  {icon}
-                                </span>
-                              )}
-                              {/* Render the cleaned HTML to preserve links */}
-                              <span className={styles.contactText} style={{
-                                fontSize: '0.95rem',
-                                fontWeight: '500',
-                                wordBreak: 'break-word'
-                              }} dangerouslySetInnerHTML={{ __html: cleanHtml }} />
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    )}
+                              {icon}
+                            </div>
+                            <div style={{
+                              fontSize: '1rem',
+                              color: 'var(--text-primary)',
+                              flex: 1
+                            }} dangerouslySetInnerHTML={{ __html: item }} />
+                          </div>
+                        );
+                      })}
+                    </div>
                   </section>
                 ))}
             </div>
           </div>
         ) : (
-          /* Fallback if parsing fails or content is empty */
-          <section className={styles.contentCard} style={{
-            padding: '2.5rem',
-            background: 'var(--background-secondary)',
-            borderRadius: '16px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-            border: '1px solid var(--border-color)'
-          }} dangerouslySetInnerHTML={{ __html: html }} />
+          <div style={{
+            textAlign: 'center',
+            padding: '4rem 2rem',
+            color: 'var(--text-secondary)'
+          }}>
+            <p style={{ fontSize: '1.2rem' }}>Loading about content...</p>
+          </div>
         )}
       </div>
 
@@ -283,20 +260,44 @@ const AboutPage = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
-        .${styles.contactItem}:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-          border-color: ${selectedGradient?.colors?.[0] || '#667eea'};
+        .${styles.contentCard}:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
         
-        .${styles.contactText} a {
-          color: ${selectedGradient?.colors?.[0] || '#667eea'};
-          text-decoration: none;
-          font-weight: 600;
+        @media (max-width: 768px) {
+          .hero-container {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 1rem !important;
+            min-height: 100vh !important;
+            gap: 2rem !important;
+          }
+          .image-container {
+            flex: none !important;
+            margin-bottom: 2rem !important;
+          }
+          .content-container {
+            padding-left: 0 !important;
+          }
+          .content-container h1 {
+            font-size: 2.5rem !important;
+            text-align: center !important;
+            margin-bottom: 1.5rem !important;
+          }
+          .content-container p {
+            text-align: center !important;
+            font-size: 1.2rem !important;
+          }
         }
         
-        .${styles.contactText} a:hover {
-          opacity: 0.8;
+        @media (max-width: 480px) {
+          .content-container h1 {
+            font-size: 2rem !important;
+          }
+          .content-container p {
+            font-size: 1.1rem !important;
+          }
         }
       `}</style>
     </Layout>

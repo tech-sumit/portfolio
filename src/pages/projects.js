@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
+import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import HeroSection from '../components/HeroSection';
+import GradientText from '../components/GradientText';
 import { useGradient } from '../context/GradientContext';
 import * as styles from '../styles/content-page.module.css'; // Reuse the same CSS module
 
@@ -100,41 +103,31 @@ const ProjectsPage = () => {
 
   return (
     <Layout>
-      {/* Page Header with consistent styling */}
-      <div style={{ 
-        padding: '4rem 2rem 2rem',
-        textAlign: 'center',
-        fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-      }}>
-        <h1 style={{
-          fontSize: '4rem',
-          fontWeight: '900',
-          marginBottom: '1rem',
-          background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          color: selectedGradient?.colors?.[0] || '#667eea'
-        }}>
-          {frontmatter.title}
-        </h1>
-        <p style={{
-          fontSize: '1.3rem',
-          color: 'var(--text-secondary)',
-          fontWeight: '500',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          Explore my portfolio of innovative projects and technical achievements
-        </p>
-      </div>
-
+      <HeroSection 
+        imageComponent={
+          <StaticImage
+            src="../images/projects.png"
+            alt="My Projects"
+            placeholder="blurred"
+            layout="constrained"
+            width={550}
+            height={550}
+            style={{ 
+              borderRadius: '20px'
+            }}
+          />
+        }
+        subtitle="Portfolio"
+        title={frontmatter.title}
+        description="Explore my portfolio of innovative projects"
+        additionalDescription="Discover the technical achievements, solutions built, and technologies used in my projects."
+      />
 
       {/* Projects Content */}
       <div style={{ 
         maxWidth: '1200px', 
         margin: '0 auto', 
-        padding: '0 2rem 4rem',
+        padding: '4rem 2rem 4rem',
         fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
         {parsedContent.projects.length > 0 ? (
@@ -176,7 +169,45 @@ const ProjectsPage = () => {
                 }} dangerouslySetInnerHTML={{ __html: project.detailsHtml }} />
               )}
 
-
+              {/* Render Technologies as Skill-like Buttons */}
+              {project.technologiesArray && project.technologiesArray.length > 0 && (
+                <div className={styles.projectTechnologies}>
+                  <h4 style={{
+                    fontSize: '1.3rem',
+                    fontWeight: '600',
+                    marginBottom: '1rem',
+                    color: 'var(--text-primary)'
+                  }}>
+                    Technologies:
+                  </h4>
+                  <div className={styles.techBadgeContainer} style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '0.8rem'
+                  }}>
+                    {project.technologiesArray.map((tech, index) => {
+                      // Create a URL-friendly hash
+                      const skillHash = encodeURIComponent(tech.toLowerCase().replace(/\s+/g, '-'));
+                      return (
+                        <a key={index} href={`/skills#${skillHash}`} className={styles.techBadge} style={{
+                          display: 'inline-block',
+                          padding: '0.5rem 1rem',
+                          background: `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}20, ${selectedGradient?.colors?.[1] || '#764ba2'}20)`,
+                          border: `2px solid ${selectedGradient?.colors?.[0] || '#667eea'}40`,
+                          borderRadius: '25px',
+                          color: selectedGradient?.colors?.[0] || '#667eea',
+                          textDecoration: 'none',
+                          fontSize: '0.9rem',
+                          fontWeight: '600',
+                          transition: 'all 0.3s ease'
+                        }}>
+                          {tech}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </section>
           ))
         ) : (
@@ -208,20 +239,39 @@ const ProjectsPage = () => {
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .${styles.projectDetails} ul {
-          list-style: none;
-          padding: 0;
+        @media (max-width: 768px) {
+          .hero-container {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 1rem !important;
+            min-height: 100vh !important;
+            gap: 2rem !important;
+          }
+          .image-container {
+            flex: none !important;
+            margin-bottom: 2rem !important;
+          }
+          .content-container {
+            padding-left: 0 !important;
+          }
+          .content-container h1 {
+            font-size: 2.5rem !important;
+            text-align: center !important;
+            margin-bottom: 1.5rem !important;
+          }
+          .content-container p {
+            text-align: center !important;
+            font-size: 1.2rem !important;
+          }
         }
         
-        .${styles.projectDetails} ul li {
-          margin-bottom: 0.8rem;
-          padding-left: 0;
-          line-height: 1.6;
-        }
-        
-        .${styles.projectDetails} strong {
-          color: ${selectedGradient?.colors?.[0] || '#667eea'};
-          font-weight: 700;
+        @media (max-width: 480px) {
+          .content-container h1 {
+            font-size: 2rem !important;
+          }
+          .content-container p {
+            font-size: 1.1rem !important;
+          }
         }
       `}</style>
     </Layout>

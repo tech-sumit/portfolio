@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
+import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import HeroSection from '../components/HeroSection';
+import GradientText from '../components/GradientText';
 import Modal from '../components/Modal'; // Import the external Modal component
 import { useGradient } from '../context/GradientContext';
 import * as styles from '../styles/skills.module.css';
@@ -199,87 +202,46 @@ const SkillsPage = () => {
 
   // --- Updated Icon Mapping --- 
   const getIconForSkill = (skillName) => {
-    const lowerSkill = skillName.toLowerCase().replace(/\s+/g, '').replace(/[().+]/g, ''); // Normalize name more aggressively
-
-    // Frontend
-    if (lowerSkill.includes('html')) return <FaHtml5 title="HTML5" />;
-    if (lowerSkill.includes('css') || lowerSkill.includes('scss') || lowerSkill.includes('sass')) return <FaCss3Alt title="CSS3/SCSS" />;
-    if (lowerSkill.includes('javascript') || lowerSkill.includes('ecmascript') || lowerSkill === 'js') return <FaJsSquare title="JavaScript (ES6+)" />;
-    if (lowerSkill.includes('typescript') || lowerSkill === 'ts') return <SiTypescript title="TypeScript" />;
-    if (lowerSkill.includes('react')) return <FaReact title="React" />;
-    if (lowerSkill.includes('nextjs')) return <SiNextdotjs title="Next.js" />;
-    if (lowerSkill.includes('gatsby')) return <SiGatsby title="Gatsby" />;
-
+    const skillLower = skillName.toLowerCase();
+    
+    // Frontend / Languages
+    if (skillLower.includes('html')) return <FaHtml5 style={{ color: '#E34F26' }} />;
+    if (skillLower.includes('css')) return <FaCss3Alt style={{ color: '#1572B6' }} />;
+    if (skillLower.includes('javascript') || skillLower.includes('js')) return <FaJsSquare style={{ color: '#F7DF1E' }} />;
+    if (skillLower.includes('typescript') || skillLower.includes('ts')) return <SiTypescript style={{ color: '#007ACC' }} />;
+    if (skillLower.includes('react')) return <FaReact style={{ color: '#61DAFB' }} />;
+    if (skillLower.includes('gatsby')) return <SiGatsby style={{ color: '#663399' }} />;
+    if (skillLower.includes('next')) return <SiNextdotjs style={{ color: '#000000' }} />;
+    
     // Backend
-    if (lowerSkill.includes('nodejs')) return <FaNodeJs title="Node.js" />;
-    if (lowerSkill.includes('python')) return <FaPython title="Python" />;
-    if (lowerSkill.includes('java')) return <FaJava title="Java" />;
-    if (lowerSkill.includes('flask')) return <SiFlask title="Flask" />;
-    if (lowerSkill.includes('django')) return <SiDjango title="Django" />;
-    if (lowerSkill.includes('solidity')) return <SiSolidity title="Solidity" />;
-    if (lowerSkill.includes('rust')) return <SiRust title="Rust" />;
-
-    // Cloud & DevOps
-    if (lowerSkill.includes('aws') || lowerSkill.includes('amazonwebservices')) return <FaAws title="AWS" />;
-    if (lowerSkill.includes('gcp') || lowerSkill.includes('googlecloud')) return <SiGooglecloud title="GCP" />;
-    // Azure icon not available in current react-icons version
-    // if (lowerSkill.includes('azure') || lowerSkill.includes('microsoftazure')) return <SiAzure title="Azure" />;
-    if (lowerSkill.includes('docker')) return <FaDocker title="Docker" />;
-    if (lowerSkill.includes('kubernetes') || lowerSkill === 'k8s') return <SiKubernetes title="Kubernetes" />;
-    if (lowerSkill.includes('terraform')) return <SiTerraform title="Terraform" />;
-    if (lowerSkill.includes('jenkins')) return <SiJenkins title="Jenkins" />;
-    if (lowerSkill.includes('linux')) return <FaLinux title="Linux" />;
-    if (lowerSkill.includes('git')) return <FaGitAlt title="Git" />;
-
+    if (skillLower.includes('node')) return <FaNodeJs style={{ color: '#339933' }} />;
+    if (skillLower.includes('python')) return <FaPython style={{ color: '#3776AB' }} />;
+    if (skillLower.includes('java')) return <FaJava style={{ color: '#007396' }} />;
+    if (skillLower.includes('flask')) return <SiFlask style={{ color: '#000000' }} />;
+    if (skillLower.includes('django')) return <SiDjango style={{ color: '#092E20' }} />;
+    
+    // DevOps / Cloud / Infrastructure
+    if (skillLower.includes('aws')) return <FaAws style={{ color: '#FF9900' }} />;
+    if (skillLower.includes('docker')) return <FaDocker style={{ color: '#2496ED' }} />;
+    if (skillLower.includes('kubernetes') || skillLower.includes('k8s')) return <SiKubernetes style={{ color: '#326CE5' }} />;
+    if (skillLower.includes('google cloud') || skillLower.includes('gcp')) return <SiGooglecloud style={{ color: '#4285F4' }} />;
+    if (skillLower.includes('terraform')) return <SiTerraform style={{ color: '#623CE4' }} />;
+    if (skillLower.includes('jenkins')) return <SiJenkins style={{ color: '#D24939' }} />;
+    
     // Databases
-    if (lowerSkill.includes('mongodb')) return <SiMongodb title="MongoDB" />;
-    if (lowerSkill.includes('postgresql') || lowerSkill.includes('postgres')) return <SiPostgresql title="PostgreSQL" />;
-    if (lowerSkill.includes('redis')) return <SiRedis title="Redis" />;
-
-    // Add more mappings based on your skills...
-
-    return null; // Default no icon
+    if (skillLower.includes('mongodb') || skillLower.includes('mongo')) return <SiMongodb style={{ color: '#47A248' }} />;
+    if (skillLower.includes('postgresql') || skillLower.includes('postgres')) return <SiPostgresql style={{ color: '#336791' }} />;
+    if (skillLower.includes('redis')) return <SiRedis style={{ color: '#DC382D' }} />;
+    
+    // Tools / Other
+    if (skillLower.includes('git')) return <FaGitAlt style={{ color: '#F05032' }} />;
+    if (skillLower.includes('linux')) return <FaLinux style={{ color: '#FCC624' }} />;
+    if (skillLower.includes('solidity')) return <SiSolidity style={{ color: '#363636' }} />;
+    if (skillLower.includes('rust')) return <SiRust style={{ color: '#000000' }} />;
+    
+    // Default: No icon or a generic one
+    return null;
   };
-
-  // 3. Handle incoming hash links (NEW useEffect)
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash && skillCategories.length > 0 && skillConnections) {
-      // Check if skillCategories AND skillConnections are loaded
-      const hash = window.location.hash.substring(1); // Remove '#'
-      try {
-        const decodedHash = decodeURIComponent(hash);
-
-        // Normalize the hash to match skill names (lowercase, remove non-alphanumeric)
-        const normalizedHash = decodedHash.toLowerCase().replace(/[^a-z0-9]/gi, '');
-
-        // Find the skill name that matches the hash
-        let targetSkill = null;
-        for (const category of skillCategories) {
-          for (const skill of category.skills) {
-            const normalizedSkill = skill.toLowerCase().replace(/[^a-z0-9]/gi, '');
-            if (normalizedSkill === normalizedHash) {
-              targetSkill = skill;
-              break;
-            }
-          }
-          if (targetSkill) break;
-        }
-
-        // If a matching skill is found, trigger the click handler
-        if (targetSkill && skillConnections.postsBySkill) { // Ensure connections are ready
-          // Use a timeout to ensure the initial render is complete
-          // and the modal can be opened correctly.
-          const timer = setTimeout(() => {
-            handleSkillClick(targetSkill);
-          }, 100); // Small delay (e.g., 100ms)
-          return () => clearTimeout(timer); // Cleanup timeout on unmount/re-run
-        }
-      } catch (e) {
-        console.error("Error decoding or handling URL hash:", e);
-      }
-    }
-    // Depend on skillCategories and skillConnections being populated
-  }, [skillCategories, skillConnections, handleSkillClick]);
 
   if (isLoading || !selectedGradient) {
     return <Layout><div>Loading...</div></Layout>;
@@ -287,243 +249,320 @@ const SkillsPage = () => {
 
   return (
     <Layout>
-      {/* Page Header with consistent styling */}
-      <div style={{ 
-        padding: '4rem 2rem 2rem',
-        textAlign: 'center',
-        fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-      }}>
-        <h1 style={{
-          fontSize: '4rem',
-          fontWeight: '900',
-          marginBottom: '1rem',
-          background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          color: selectedGradient?.colors?.[0] || '#667eea'
-        }}>
-          {pageTitle}
-        </h1>
-        <p style={{
-          fontSize: '1.3rem',
-          color: 'var(--text-secondary)',
-          fontWeight: '500',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          Discover my technical expertise and explore related projects and experience
-        </p>
-      </div>
-
-      {skillCategories.length === 0 && !skillsHtml && (
-        <div style={{
-          textAlign: 'center',
-          padding: '4rem 2rem',
-          color: 'var(--text-secondary)'
-        }}>
-          <p style={{ fontSize: '1.2rem' }}>Loading skills...</p>
-        </div>
-      )}
-      
-      {skillCategories.length === 0 && skillsHtml && (
-        <div style={{
-          textAlign: 'center',
-          padding: '4rem 2rem',
-          color: 'var(--text-secondary)'
-        }}>
-          <p style={{ fontSize: '1.2rem' }}>Could not parse skills from Markdown. Check format in src/content/resume/skills.md (e.g., use H2/H3 for categories followed by a UL list).</p>
-        </div>
-      )}
+      <HeroSection 
+        imageComponent={
+          <StaticImage
+            src="../images/skills.png"
+            alt="My Skills"
+            placeholder="blurred"
+            layout="constrained"
+            width={550}
+            height={550}
+            style={{ 
+              borderRadius: '20px'
+            }}
+          />
+        }
+        subtitle="Technical Expertise"
+        title={pageTitle}
+        description="Explore my technical skills and expertise"
+        additionalDescription="Click on any skill to discover related projects, experiences, and blog posts."
+      />
 
       {/* Skills Content */}
       <div style={{ 
         maxWidth: '1200px', 
         margin: '0 auto', 
-        padding: '0 2rem 4rem',
+        padding: '4rem 2rem 4rem',
         fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
-        {skillCategories.map(category => (
-            <section key={category.name} className={styles.categorySection} style={{
-              marginBottom: '3rem',
+        {skillCategories.length > 0 ? (
+          skillCategories.map((category, categoryIndex) => (
+            <section key={categoryIndex} className={styles.skillCategorySection} style={{
+              marginBottom: '4rem',
               padding: '2.5rem',
               background: 'var(--background-secondary)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              border: '1px solid var(--border-color)',
-              transition: 'all 0.3s ease'
+              borderRadius: '20px',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
+              border: '1px solid var(--border-color)'
             }}>
-              <h2 style={{
-                fontSize: '2.2rem',
-                fontWeight: '700',
-                marginBottom: '1rem',
-                background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                color: selectedGradient?.colors?.[0] || '#667eea'
-              }}>
+              <GradientText as="h2">
                 {category.name}
-              </h2>
+              </GradientText>
               
-              {/* Display the explanation if available */}
+              {/* Category explanation */}
               {skillCategoryExplanations[category.name] && (
-                <p className={styles.categoryExplanation} style={{
+                <p style={{
                   fontSize: '1.1rem',
                   color: 'var(--text-secondary)',
-                  marginBottom: '2rem',
-                  lineHeight: '1.6'
+                  textAlign: 'center',
+                  marginBottom: '2.5rem',
+                  lineHeight: '1.6',
+                  maxWidth: '800px',
+                  margin: '0 auto 2.5rem'
                 }}>
                   {skillCategoryExplanations[category.name]}
                 </p>
               )}
               
-              <div className={styles.skillsGrid} style={{
+              <div className={styles.skillGrid} style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                gap: '1rem'
+                gap: '1.5rem',
+                padding: '1rem 0'
               }}>
-                {category.skills.map(skill => (
-                  <button
-                    key={skill}
-                    className={styles.skillBadge}
-                    onClick={() => handleSkillClick(skill)}
-                    title={`Show related content for ${skill}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.8rem',
-                      padding: '0.8rem 1.2rem',
-                      background: `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}10, ${selectedGradient?.colors?.[1] || '#764ba2'}10)`,
-                      border: `2px solid ${selectedGradient?.colors?.[0] || '#667eea'}30`,
-                      borderRadius: '12px',
-                      color: 'var(--text-primary)',
-                      fontSize: '1rem',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      fontFamily: 'inherit',
-                      width: '100%',
-                      boxSizing: 'border-box'
-                    }}
-                  >
-                    <span style={{
-                      color: selectedGradient?.colors?.[0] || '#667eea',
-                      fontSize: '1.3rem'
-                    }}>
-                      {getIconForSkill(skill)}
-                    </span>
-                    <span>{skill}</span>
-                  </button>
-                ))}
+                {category.skills.map((skill, skillIndex) => {
+                  const skillIcon = getIconForSkill(skill);
+                  return (
+                    <button
+                      key={skillIndex}
+                      onClick={() => handleSkillClick(skill)}
+                      className={styles.skillCard}
+                      style={{
+                        background: `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}15, ${selectedGradient?.colors?.[1] || '#764ba2'}15)`,
+                        border: `2px solid ${selectedGradient?.colors?.[0] || '#667eea'}30`,
+                        borderRadius: '16px',
+                        padding: '1.5rem',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '0.8rem',
+                        minHeight: '120px',
+                        justifyContent: 'center'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-8px)';
+                        e.target.style.boxShadow = `0 15px 40px ${selectedGradient?.colors?.[0] || '#667eea'}20`;
+                        e.target.style.borderColor = selectedGradient?.colors?.[0] || '#667eea';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
+                        e.target.style.borderColor = `${selectedGradient?.colors?.[0] || '#667eea'}30`;
+                      }}
+                    >
+                      {skillIcon && (
+                        <div style={{ fontSize: '2.5rem' }}>
+                          {skillIcon}
+                        </div>
+                      )}
+                      <span style={{
+                        fontSize: '1.1rem',
+                        fontWeight: '600',
+                        color: 'var(--text-primary)',
+                        textAlign: 'center'
+                      }}>
+                        {skill}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </section>
-          ))}
+          ))
+        ) : (
+          <div style={{
+            textAlign: 'center',
+            padding: '4rem 2rem',
+            color: 'var(--text-secondary)'
+          }}>
+            <p style={{ fontSize: '1.2rem' }}>Loading skills...</p>
+          </div>
+        )}
       </div>
 
-      {/* --- Modal --- */}
+      {/* Modal for skill details */}
       {selectedSkill && (
-        <Modal 
-          title={`Related to: ${selectedSkill}`} 
-          onClose={closeModal} 
-          styles={styles} // Pass the CSS module styles as a prop
-        >
-          <div style={{
-            fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+        <Modal onClose={closeModal} styles={styles}>
+          <div style={{ 
+            padding: '2rem',
+            maxWidth: '600px',
+            margin: '0 auto'
           }}>
-            {relatedContent.posts.length > 0 && (
-              <div className={styles.modalSection} style={{ marginBottom: '2rem' }}>
-                <h3 style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '1rem',
-                  color: selectedGradient?.colors?.[0] || '#667eea'
-                }}>
-                  Blog Posts:
-                </h3>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                  {relatedContent.posts.map(post => (
-                    <li key={post.slug} style={{ marginBottom: '0.5rem' }}>
-                      <Link to={`/blog/${post.slug}`} style={{
-                        color: selectedGradient?.colors?.[0] || '#667eea',
-                        textDecoration: 'none',
-                        fontSize: '1.1rem'
-                      }}>
-                        {post.title}
+            <h2 style={{
+              fontSize: '2.5rem',
+              fontWeight: '700',
+              marginBottom: '2rem',
+              textAlign: 'center',
+              background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: selectedGradient?.colors?.[0] || '#667eea'
+            }}>
+              {selectedSkill}
+            </h2>
+            
+            <div style={{ 
+              display: 'grid',
+              gap: '2rem'
+            }}>
+              {/* Related Posts */}
+              {relatedContent.posts.length > 0 && (
+                <div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: '600',
+                    marginBottom: '1rem',
+                    color: 'var(--text-primary)'
+                  }}>
+                    📝 Related Blog Posts
+                  </h3>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.8rem'
+                  }}>
+                    {relatedContent.posts.map((post, index) => (
+                      <Link
+                        key={index}
+                        to={post.slug}
+                        style={{
+                          textDecoration: 'none',
+                          padding: '1rem',
+                          background: 'var(--background-tertiary)',
+                          borderRadius: '10px',
+                          border: '1px solid var(--border-color)',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.background = `${selectedGradient?.colors?.[0] || '#667eea'}10`;
+                          e.target.style.borderColor = selectedGradient?.colors?.[0] || '#667eea';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = 'var(--background-tertiary)';
+                          e.target.style.borderColor = 'var(--border-color)';
+                        }}
+                      >
+                        <span style={{
+                          fontSize: '1.1rem',
+                          fontWeight: '500',
+                          color: 'var(--text-primary)'
+                        }}>
+                          {post.title}
+                        </span>
                       </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {relatedContent.experiences.length > 0 && (
-              <div className={styles.modalSection} style={{ marginBottom: '2rem' }}>
-                <h3 style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '1rem',
-                  color: selectedGradient?.colors?.[0] || '#667eea'
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Related Experiences */}
+              {relatedContent.experiences.length > 0 && (
+                <div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: '600',
+                    marginBottom: '1rem',
+                    color: 'var(--text-primary)'
+                  }}>
+                    💼 Related Experience
+                  </h3>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.8rem'
+                  }}>
+                    {relatedContent.experiences.map((exp, index) => (
+                      <a
+                        key={index}
+                        href={`/experience#${exp.id}`}
+                        style={{
+                          textDecoration: 'none',
+                          padding: '1rem',
+                          background: 'var(--background-tertiary)',
+                          borderRadius: '10px',
+                          border: '1px solid var(--border-color)',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.background = `${selectedGradient?.colors?.[0] || '#667eea'}10`;
+                          e.target.style.borderColor = selectedGradient?.colors?.[0] || '#667eea';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = 'var(--background-tertiary)';
+                          e.target.style.borderColor = 'var(--border-color)';
+                        }}
+                      >
+                        <span style={{
+                          fontSize: '1.1rem',
+                          fontWeight: '500',
+                          color: 'var(--text-primary)'
+                        }}>
+                          {exp.title}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Related Projects */}
+              {relatedContent.projects.length > 0 && (
+                <div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: '600',
+                    marginBottom: '1rem',
+                    color: 'var(--text-primary)'
+                  }}>
+                    🚀 Related Projects
+                  </h3>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.8rem'
+                  }}>
+                    {relatedContent.projects.map((project, index) => (
+                      <a
+                        key={index}
+                        href={`/projects#${project.id}`}
+                        style={{
+                          textDecoration: 'none',
+                          padding: '1rem',
+                          background: 'var(--background-tertiary)',
+                          borderRadius: '10px',
+                          border: '1px solid var(--border-color)',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.background = `${selectedGradient?.colors?.[0] || '#667eea'}10`;
+                          e.target.style.borderColor = selectedGradient?.colors?.[0] || '#667eea';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = 'var(--background-tertiary)';
+                          e.target.style.borderColor = 'var(--border-color)';
+                        }}
+                      >
+                        <span style={{
+                          fontSize: '1.1rem',
+                          fontWeight: '500',
+                          color: 'var(--text-primary)'
+                        }}>
+                          {project.title}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* No related content message */}
+              {relatedContent.posts.length === 0 && 
+               relatedContent.experiences.length === 0 && 
+               relatedContent.projects.length === 0 && (
+                <div style={{
+                  textAlign: 'center',
+                  padding: '2rem',
+                  color: 'var(--text-secondary)'
                 }}>
-                  Experience:
-                </h3>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                  {relatedContent.experiences.map(exp => (
-                     <li key={exp.id || exp.title} style={{ marginBottom: '0.5rem' }}>
-                       {exp.id ? (
-                         <Link to={`/experience#${exp.id}`} style={{
-                           color: selectedGradient?.colors?.[0] || '#667eea',
-                           textDecoration: 'none',
-                           fontSize: '1.1rem'
-                         }}>
-                           {exp.title}
-                         </Link>
-                       ) : (
-                         <span style={{ fontSize: '1.1rem' }}>{exp.title} (No ID found)</span>
-                       )}
-                     </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {relatedContent.projects.length > 0 && (
-              <div className={styles.modalSection} style={{ marginBottom: '2rem' }}>
-                <h3 style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '1rem',
-                  color: selectedGradient?.colors?.[0] || '#667eea'
-                }}>
-                  Projects:
-                </h3>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                  {relatedContent.projects.map(proj => (
-                     <li key={proj.id || proj.title} style={{ marginBottom: '0.5rem' }}>
-                       {proj.id ? (
-                         <Link to={`/projects#${proj.id}`} style={{
-                           color: selectedGradient?.colors?.[0] || '#667eea',
-                           textDecoration: 'none',
-                           fontSize: '1.1rem'
-                         }}>
-                           {proj.title}
-                         </Link>
-                       ) : (
-                         <span style={{ fontSize: '1.1rem' }}>{proj.title} (No ID found)</span>
-                       )}
-                     </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-             {(relatedContent.posts.length === 0 && relatedContent.experiences.length === 0 && relatedContent.projects.length === 0) && (
-                 <p style={{
-                   fontSize: '1.1rem',
-                   color: 'var(--text-secondary)',
-                   textAlign: 'center',
-                   padding: '2rem'
-                 }}>
-                   No specific blog posts, experience sections, or project sections found mentioning this skill (based on current parsing).
-                 </p>
-             )}
+                  <p>No related content found for this skill yet.</p>
+                </div>
+              )}
+            </div>
           </div>
         </Modal>
       )}
@@ -532,16 +571,52 @@ const SkillsPage = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
-        .${styles.skillBadge}:hover {
-          transform: translateY(-3px);
-          background: linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}20, ${selectedGradient?.colors?.[1] || '#764ba2'}20) !important;
-          border-color: ${selectedGradient?.colors?.[0] || '#667eea'} !important;
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        .${styles.skillCategorySection}:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
         }
         
-        .${styles.categorySection}:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        @media (max-width: 768px) {
+          .hero-container {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 1rem !important;
+            min-height: 100vh !important;
+            gap: 2rem !important;
+          }
+          .image-container {
+            flex: none !important;
+            margin-bottom: 2rem !important;
+          }
+          .content-container {
+            padding-left: 0 !important;
+          }
+          .content-container h1 {
+            font-size: 2.5rem !important;
+            text-align: center !important;
+            margin-bottom: 1.5rem !important;
+          }
+          .content-container p {
+            text-align: center !important;
+            font-size: 1.2rem !important;
+          }
+          
+          .${styles.skillGrid} {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .content-container h1 {
+            font-size: 2rem !important;
+          }
+          .content-container p {
+            font-size: 1.1rem !important;
+          }
+          
+          .${styles.skillGrid} {
+            grid-template-columns: 1fr 1fr !important;
+          }
         }
       `}</style>
     </Layout>
