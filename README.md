@@ -40,6 +40,30 @@ _Have another more specific idea? You may want to check out our vibrant collecti
 
     Open the `my-default-starter` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
 
+## 🤖 AI-Powered Skills Page
+
+This portfolio features a completely AI-driven skills page with:
+
+- **Dynamic Content Generation**: Skills are extracted from `skills.md` and enhanced with AI-generated descriptions
+- **Real-time AI Descriptions**: Click any skill to get contextual explanations powered by Google's Gemini AI
+- **Smart Reference Links**: AI provides up to 3 relevant reference links including official documentation, tutorials, and community resources
+- **No Hardcoded Content**: All descriptions and links are generated dynamically - no fallback content
+
+**Setup:**
+Set your Google AI API key as an environment variable. You can use either naming convention:
+
+```shell
+# Option 1: GATSBY_ prefixed (recommended for client-side access)
+GATSBY_GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+
+# Option 2: Standard naming
+GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+```
+
+**Get your API key from:** https://makersuite.google.com/app/apikey
+
+**Note:** The system uses Gemini 1.5 Flash model and checks for both variable names. Without the API key, skill content won't be generated.
+
 ## 🚀 Quick start (Netlify)
 
 Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):

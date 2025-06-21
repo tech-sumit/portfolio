@@ -1,9 +1,68 @@
 const path = require('path');
 
+
+
+/**
+ * Parse skills from markdown content
+ */
+const parseSkillsFromMarkdown = (markdownContent) => {
+  const skillCategories = [];
+  const lines = markdownContent.split('\n');
+  
+  let currentCategory = null;
+  let inSkillsList = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    // Check for category headers (h3 tags)
+    if (line.match(/^<h3[^>]*>.*<\/h3>$/)) {
+      // Extract category name, removing HTML tags and img tags
+      let categoryName = line
+        .replace(/<h3[^>]*>/g, '')
+        .replace(/<\/h3>/g, '')
+        .replace(/<img[^>]*>/g, '') // Remove img tags
+        .trim();
+      
+      if (categoryName) {
+        currentCategory = {
+          name: categoryName,
+          skills: []
+        };
+        skillCategories.push(currentCategory);
+        inSkillsList = false;
+      }
+    }
+    // Check for start of skills list
+    else if (line === '<ul>' || line.match(/^\s*<ul>/)) {
+      inSkillsList = true;
+    }
+    // Check for end of skills list
+    else if (line === '</ul>' || line.match(/^\s*<\/ul>/)) {
+      inSkillsList = false;
+    }
+    // Parse skill items
+    else if (inSkillsList && currentCategory && line.match(/^\s*<li[^>]*>/)) {
+      // Extract skill name, removing HTML tags
+      let skillName = line
+        .replace(/<li[^>]*>/g, '')
+        .replace(/<\/li>/g, '')
+        .replace(/<img[^>]*>/g, '') // Remove img tags
+        .trim();
+      
+      if (skillName) {
+        currentCategory.skills.push({
+          name: skillName
+        });
+      }
+    }
+  }
+  
+  return skillCategories;
+};
+
 /**
  * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/
  */
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
@@ -20,20 +79,32 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       value: slug,
     });
      
-    // Add sourceInstanceName to fields for easier querying in createPages
     createNodeField({
       node,
       name: `sourceInstanceName`,
       value: sourceInstanceName,
     });
 
-    // Add empty skill category explanations field for backward compatibility
+    // Process skills markdown and extract skill structure
     if (sourceInstanceName === 'resume' && slug === 'skills') {
-      createNodeField({
-        node,
-        name: 'skillCategoryExplanations',
-        value: JSON.stringify({}),
-      });
+      try {
+        const markdownContent = node.rawMarkdownBody || '';
+        const skillCategories = parseSkillsFromMarkdown(markdownContent);
+        
+        // Create skills data field
+        createNodeField({
+          node,
+          name: 'skillsData',
+          value: JSON.stringify(skillCategories),
+        });
+      } catch (error) {
+        console.warn('Error processing skills data:', error);
+        createNodeField({
+          node,
+          name: 'skillsData',
+          value: JSON.stringify([]),
+        });
+      }
     }
   }
 };
@@ -69,7 +140,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   `);
 
-  // Handle errors
   if (result.errors) {
     reporter.panicOnBuild(`Error loading markdown content`, result.errors);
     return;
@@ -77,7 +147,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const contentNodes = result.data.allMarkdownRemark.nodes;
 
-  // Create pages for each markdown file.
   if (contentNodes.length > 0) {
     contentNodes.forEach((node) => {
       const slug = node.fields.slug;
@@ -88,43 +157,31 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
       reporter.info(`Processing node: slug=${slug}, source=${sourceInstanceName}`);
 
-      // Determine path and template based on source
       if (sourceInstanceName === 'pages') {
           pagePath = slug === 'index' ? '/' : `/${slug}`;
           if (slug === 'projects') {
               component = projectsPageComponent;
-              reporter.info(`  -> Matched 'pages/projects'. Using specific component: ${component}. Path: ${pagePath}`);
           } else if (slug === 'about') {
               component = aboutPageComponent;
-              reporter.info(`  -> Matched 'pages/about'. Using specific component: ${component}. Path: ${pagePath}`);
           } else {
               component = pageTemplate;
-              reporter.info(`  -> Matched 'pages' (generic). Path: ${pagePath}`);
           }
       } else if (sourceInstanceName === 'resume') {
           pagePath = `/${slug}`;
           if (slug === 'skills') {
              component = skillsPageComponent;
-             reporter.info(`  -> Matched 'resume/skills'. Using specific component: ${component}. Path: ${pagePath}`);
           } else if (slug === 'experience') {
              component = experiencePageComponent;
-             reporter.info(`  -> Matched 'resume/experience'. Using specific component: ${component}. Path: ${pagePath}`);
           } else {
              component = pageTemplate;
-             reporter.info(`  -> Matched 'resume' (generic). Path: ${pagePath}`);
           }
       } else if (sourceInstanceName === 'posts') {
           pagePath = `/blog/${slug}`;
           component = postTemplate;
-          reporter.info(`  -> Matched 'posts'. Path: ${pagePath}`);
       } else {
-          // Generic fallback
           pagePath = `/${slug}`;
           component = pageTemplate;
-          reporter.info(`  -> Generic fallback. Path: ${pagePath}`);
       }
-
-      reporter.info(`  --> Attempting createPage for path: ${pagePath} with component: ${component}`);
 
       createPage({
         path: pagePath,

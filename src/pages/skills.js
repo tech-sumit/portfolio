@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
 import { StaticImage } from "gatsby-plugin-image";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import Layout from '../components/layout';
 import HeroSection from '../components/HeroSection';
 import GradientText from '../components/GradientText';
@@ -21,12 +22,11 @@ const SkillsPage = () => {
   const data = useStaticQuery(graphql`
     query {
       skillsMd: markdownRemark(fields: { slug: { eq: "skills" } }) {
-        html
         frontmatter {
           title
         }
         fields {
-          skillCategoryExplanations
+          skillsData
         }
       }
       experienceMd: markdownRemark(fields: { slug: { eq: "experience" } }) {
@@ -53,51 +53,32 @@ const SkillsPage = () => {
   `);
   
   const [skillCategories, setSkillCategories] = useState([]);
-  const [selectedSkill, setSelectedSkill] = useState(null); // Skill name for modal
+  const [selectedSkill, setSelectedSkill] = useState(null); // Skill data for modal
   const [relatedContent, setRelatedContent] = useState({ posts: [], experiences: [], projects: [] });
+  const [dynamicSkillData, setDynamicSkillData] = useState(null); // AI-generated content
+  const [isLoadingSkillData, setIsLoadingSkillData] = useState(false);
   const { selectedGradient, isLoading } = useGradient();
 
-  const skillsHtml = data.skillsMd?.html;
   const experienceHtml = data.experienceMd?.html;
   const projectsHtml = data.projectsMd?.html;
   const pageTitle = data.skillsMd?.frontmatter?.title || "Skills";
 
-  // Parse the JSON string from the field
-  const skillCategoryExplanations = useMemo(() => {
+  // Parse skills data from build-time processing
+  const skillsData = useMemo(() => {
     try {
-      return JSON.parse(data.skillsMd?.fields?.skillCategoryExplanations || '{}');
+      return JSON.parse(data.skillsMd?.fields?.skillsData || '[]');
     } catch (e) {
-      console.error("Error parsing skill explanations:", e);
-      return {}; // Return empty object on error
+      console.error("Error parsing skills data:", e);
+      return [];
     }
-  }, [data.skillsMd?.fields?.skillCategoryExplanations]);
+  }, [data.skillsMd?.fields?.skillsData]);
 
-  // 1. Parse Skill Categories
+  // Set skill categories from parsed data
   useEffect(() => {
-    if (typeof window !== 'undefined' && skillsHtml) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(skillsHtml, 'text/html');
-      const categories = [];
-      const headings = doc.querySelectorAll('h2, h3');
-      headings.forEach(heading => {
-        const categoryName = heading.textContent?.trim();
-        const skillsList = [];
-        let nextElement = heading.nextElementSibling;
-        while (nextElement && nextElement.tagName !== 'UL') {
-          nextElement = nextElement.nextElementSibling;
-        }
-        if (nextElement && nextElement.tagName === 'UL') {
-          nextElement.querySelectorAll('li').forEach(li => {
-            skillsList.push(li.textContent.trim());
-          });
-        }
-        if (categoryName && skillsList.length > 0) {
-          categories.push({ name: categoryName, skills: skillsList });
-        }
-      });
-      setSkillCategories(categories);
+    if (skillsData.length > 0) {
+      setSkillCategories(skillsData);
     }
-  }, [skillsHtml]);
+  }, [skillsData]);
 
   // 2. Process connections
   const skillConnections = useMemo(() => {
@@ -113,7 +94,7 @@ const SkillsPage = () => {
     if (!experienceHtml || !projectsHtml || allPosts.length === 0 || skillCategories.length === 0) {
       return connections;
     }
-    const allSkillNames = skillCategories.flatMap(cat => cat.skills);
+    const allSkillNames = skillCategories.flatMap(cat => cat.skills.map(skill => skill.name));
     allPosts.forEach(post => {
       const postTags = (post.frontmatter?.tags || []).map(tag => tag.toLowerCase());
       allSkillNames.forEach(skillName => {
@@ -186,18 +167,96 @@ const SkillsPage = () => {
     return connections;
   }, [skillCategories, experienceHtml, projectsHtml, data.allBlogPosts?.nodes]);
 
+  // Dynamic skill content generation using Gemini API
+  const generateDynamicSkillContent = async (skillName, categoryName) => {
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    
+    if (!apiKey) {
+      console.error('GOOGLE_AI_API_KEY not found. Please set your Google AI API key.');
+      return null;
+    }
+
+    try {
+      setIsLoadingSkillData(true);
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const prompt = `Generate comprehensive information about the technology "${skillName}" in the context of "${categoryName}".
+
+Return a JSON object with exactly this structure:
+{
+  "skill": "${skillName}",
+  "content": "A detailed explanation of what ${skillName} is, its primary use cases, key features, and why it's important in ${categoryName}. Start with '${skillName} is...' and provide 2-3 sentences that give a clear understanding of the technology.",
+  "refLinks": [
+    {"title": "Official Documentation", "url": "actual_official_docs_url"},
+    {"title": "Tutorial/Guide", "url": "quality_tutorial_url"},
+    {"title": "Community/Examples", "url": "community_or_examples_url"}
+  ]
+}
+
+Requirements:
+- Content should be informative and technical but accessible
+- Include what the technology is, what it's used for, and key benefits
+- Reference links should be actual, working URLs to official docs, quality tutorials, or community resources
+- Maximum 3 reference links
+- Ensure JSON is valid and properly formatted
+- Focus on practical applications and real-world usage
+
+Generate the JSON response for ${skillName}:`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text().trim();
+
+      // Try to extract JSON from the response
+      let jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('No JSON found in response');
+      }
+
+      const skillData = JSON.parse(jsonMatch[0]);
+      
+      // Validate the response structure
+      if (!skillData.skill || !skillData.content || !Array.isArray(skillData.refLinks)) {
+        throw new Error('Invalid response structure');
+      }
+
+      return skillData;
+
+    } catch (error) {
+      console.error(`Error generating content for ${skillName}:`, error.message);
+      return null;
+    } finally {
+      setIsLoadingSkillData(false);
+    }
+  };
+
   // --- Event Handlers ---
-  const handleSkillClick = useCallback((skillName) => {
-    setSelectedSkill(skillName);
+  const handleSkillClick = useCallback(async (skillData) => {
+    const skillName = typeof skillData === 'string' ? skillData : skillData?.name;
+    const categoryName = skillCategories.find(cat => 
+      cat.skills.some(skill => skill.name === skillName)
+    )?.name || 'Technology';
+
+    setSelectedSkill(skillData);
+    setDynamicSkillData(null); // Reset previous data
+    
+    // Set related content
     setRelatedContent({
       posts: skillConnections.postsBySkill[skillName] || [],
       experiences: skillConnections.experiencesBySkill[skillName] || [],
       projects: skillConnections.projectsBySkill[skillName] || [],
     });
-  }, [skillConnections]);
+
+    // Generate dynamic content
+    const dynamicContent = await generateDynamicSkillContent(skillName, categoryName);
+    setDynamicSkillData(dynamicContent);
+  }, [skillConnections, skillCategories]);
 
   const closeModal = () => {
     setSelectedSkill(null);
+    setDynamicSkillData(null);
+    setIsLoadingSkillData(false);
   };
 
   // --- Updated Icon Mapping --- 
@@ -278,7 +337,7 @@ const SkillsPage = () => {
       }}>
         {skillCategories.length > 0 ? (
           skillCategories.map((category, categoryIndex) => (
-            <section key={categoryIndex} className={styles.skillCategorySection} style={{
+            <section key={categoryIndex} className={styles.categorySection} style={{
               marginBottom: '4rem',
               padding: '2.5rem',
               background: 'var(--background-secondary)',
@@ -290,34 +349,19 @@ const SkillsPage = () => {
                 {category.name}
               </GradientText>
               
-              {/* Category explanation */}
-              {skillCategoryExplanations[category.name] && (
-                <p style={{
-                  fontSize: '1.1rem',
-                  color: 'var(--text-secondary)',
-                  textAlign: 'center',
-                  marginBottom: '2.5rem',
-                  lineHeight: '1.6',
-                  maxWidth: '800px',
-                  margin: '0 auto 2.5rem'
-                }}>
-                  {skillCategoryExplanations[category.name]}
-                </p>
-              )}
-              
-              <div className={styles.skillGrid} style={{
+              <div className={styles.skillsGrid} style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
                 gap: '1.5rem',
                 padding: '1rem 0'
               }}>
                 {category.skills.map((skill, skillIndex) => {
-                  const skillIcon = getIconForSkill(skill);
+                  const skillIcon = getIconForSkill(skill.name);
                   return (
                     <button
                       key={skillIndex}
                       onClick={() => handleSkillClick(skill)}
-                      className={styles.skillCard}
+                      className={styles.skillBadge}
                       style={{
                         background: `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}15, ${selectedGradient?.colors?.[1] || '#764ba2'}15)`,
                         border: `2px solid ${selectedGradient?.colors?.[0] || '#667eea'}30`,
@@ -353,10 +397,20 @@ const SkillsPage = () => {
                         fontSize: '1.1rem',
                         fontWeight: '600',
                         color: 'var(--text-primary)',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        display: 'block'
                       }}>
-                        {skill}
+                        {skill.name}
                       </span>
+                      <div style={{
+                        fontSize: '0.8rem',
+                        color: selectedGradient?.colors?.[0] || '#667eea',
+                        textAlign: 'center',
+                        fontWeight: '500',
+                        marginTop: '0.5rem'
+                      }}>
+                        Click for AI-generated info
+                      </div>
                     </button>
                   );
                 })}
@@ -385,7 +439,7 @@ const SkillsPage = () => {
             <h2 style={{
               fontSize: '2.5rem',
               fontWeight: '700',
-              marginBottom: '2rem',
+              marginBottom: '1rem',
               textAlign: 'center',
               background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               WebkitBackgroundClip: 'text',
@@ -393,13 +447,123 @@ const SkillsPage = () => {
               backgroundClip: 'text',
               color: selectedGradient?.colors?.[0] || '#667eea'
             }}>
-              {selectedSkill}
+              {selectedSkill?.name || selectedSkill}
             </h2>
+            
+            {/* Dynamic AI-Generated Content */}
+            <div style={{
+              fontSize: '1.2rem',
+              color: 'var(--text-secondary)',
+              textAlign: 'left',
+              marginBottom: '2rem',
+              lineHeight: '1.6',
+              padding: '1.5rem',
+              background: 'var(--background-tertiary)',
+              borderRadius: '15px',
+              border: '1px solid var(--border-color)',
+              minHeight: '120px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {isLoadingSkillData ? (
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    border: `3px solid ${selectedGradient?.colors?.[0] || '#667eea'}20`,
+                    borderTop: `3px solid ${selectedGradient?.colors?.[0] || '#667eea'}`,
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite',
+                    margin: '0 auto 1rem'
+                  }}></div>
+                  <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
+                    Generating AI-powered content...
+                  </p>
+                </div>
+              ) : dynamicSkillData ? (
+                <div style={{ width: '100%' }}>
+                  <p style={{ 
+                    margin: 0, 
+                    fontSize: '1.1rem',
+                    lineHeight: '1.7',
+                    color: 'var(--text-primary)'
+                  }}>
+                    {dynamicSkillData.content}
+                  </p>
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ 
+                    margin: 0, 
+                    color: 'var(--text-secondary)',
+                    fontSize: '1rem'
+                  }}>
+                    Unable to generate AI content. Please check your API configuration.
+                  </p>
+                </div>
+              )}
+            </div>
             
             <div style={{ 
               display: 'grid',
               gap: '2rem'
             }}>
+              {/* AI-Generated Documentation Links */}
+              {dynamicSkillData?.refLinks && dynamicSkillData.refLinks.length > 0 && (
+                <div>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: '600',
+                    marginBottom: '1rem',
+                    color: 'var(--text-primary)'
+                  }}>
+                    📚 Reference Links
+                  </h3>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.8rem'
+                  }}>
+                    {dynamicSkillData.refLinks.map((link, index) => (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          textDecoration: 'none',
+                          padding: '1rem',
+                          background: 'var(--background-tertiary)',
+                          borderRadius: '10px',
+                          border: '1px solid var(--border-color)',
+                          transition: 'all 0.3s ease',
+                          display: 'block'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.background = `${selectedGradient?.colors?.[0] || '#667eea'}10`;
+                          e.target.style.borderColor = selectedGradient?.colors?.[0] || '#667eea';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = 'var(--background-tertiary)';
+                          e.target.style.borderColor = 'var(--border-color)';
+                        }}
+                      >
+                        <span style={{
+                          fontSize: '1.1rem',
+                          fontWeight: '500',
+                          color: 'var(--text-primary)'
+                        }}>
+                          {link.title} ↗
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+
+
               {/* Related Posts */}
               {relatedContent.posts.length > 0 && (
                 <div>
@@ -550,18 +714,7 @@ const SkillsPage = () => {
                 </div>
               )}
 
-              {/* No related content message */}
-              {relatedContent.posts.length === 0 && 
-               relatedContent.experiences.length === 0 && 
-               relatedContent.projects.length === 0 && (
-                <div style={{
-                  textAlign: 'center',
-                  padding: '2rem',
-                  color: 'var(--text-secondary)'
-                }}>
-                  <p>No related content found for this skill yet.</p>
-                </div>
-              )}
+
             </div>
           </div>
         </Modal>
@@ -571,7 +724,12 @@ const SkillsPage = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
-        .${styles.skillCategorySection}:hover {
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        .${styles.categorySection}:hover {
           transform: translateY(-2px);
           box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
         }
@@ -601,7 +759,7 @@ const SkillsPage = () => {
             font-size: 1.2rem !important;
           }
           
-          .${styles.skillGrid} {
+          .${styles.skillsGrid} {
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
           }
         }
@@ -614,7 +772,7 @@ const SkillsPage = () => {
             font-size: 1.1rem !important;
           }
           
-          .${styles.skillGrid} {
+          .${styles.skillsGrid} {
             grid-template-columns: 1fr 1fr !important;
           }
         }

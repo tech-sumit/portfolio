@@ -171,7 +171,7 @@ const ProjectsPage = () => {
 
               {/* Render Technologies as Skill-like Buttons */}
               {project.technologiesArray && project.technologiesArray.length > 0 && (
-                <div className={styles.projectTechnologies}>
+                                  <div className={styles.projectTechnologiesContainer}>
                   <h4 style={{
                     fontSize: '1.3rem',
                     fontWeight: '600',
