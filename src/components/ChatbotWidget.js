@@ -47,8 +47,8 @@ const ChatbotWidget = () => {
   }, [data]);
 
   // Initialize Google AI
-  const genAI = process.env.GATSBY_GOOGLE_AI_API_KEY 
-    ? new GoogleGenerativeAI(process.env.GATSBY_GOOGLE_AI_API_KEY)
+  const genAI = process.env.GOOGLE_AI_API_KEY 
+    ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
     : null;
 
   const scrollToBottom = () => {
@@ -84,7 +84,7 @@ const ChatbotWidget = () => {
 
     try {
       if (!genAI) {
-        throw new Error('AI service not configured. Please set GATSBY_GOOGLE_AI_API_KEY environment variable.');
+        throw new Error('AI service not configured. Please set GOOGLE_AI_API_KEY environment variable.');
       }
 
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
