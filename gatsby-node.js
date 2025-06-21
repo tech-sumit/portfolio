@@ -1,6 +1,18 @@
 const path = require('path');
+const webpack = require('webpack');
 
-
+/**
+ * Configure webpack to make environment variables available at build time
+ */
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.GOOGLE_AI_API_KEY': JSON.stringify(process.env.GOOGLE_AI_API_KEY),
+      }),
+    ],
+  })
+}
 
 /**
  * Parse skills from markdown content

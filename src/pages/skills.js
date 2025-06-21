@@ -169,10 +169,13 @@ const SkillsPage = () => {
 
   // Dynamic skill content generation using Gemini API
   const generateDynamicSkillContent = async (skillName, categoryName) => {
+    // Access environment variable directly from build-time environment
+    // This will work with GitHub Actions when GOOGLE_AI_API_KEY is set as a secret
+    // and injected at build time (configured in gatsby-node.js)
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     
     if (!apiKey) {
-      console.error('GOOGLE_AI_API_KEY not found. Please set your Google AI API key.');
+      console.error('GOOGLE_AI_API_KEY not found. Please set your Google AI API key as an environment variable or GitHub secret.');
       return null;
     }
 
