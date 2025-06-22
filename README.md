@@ -48,9 +48,6 @@ The system uses intelligent environment variable detection:
 ```bash
 # Primary option (build-time injection)
 GOOGLE_AI_API_KEY=your_google_ai_api_key_here
-
-# Alternative option (client-side access)
-GATSBY_GOOGLE_AI_API_KEY=your_google_ai_api_key_here
 ```
 
 **Get your API key**: https://makersuite.google.com/app/apikey
