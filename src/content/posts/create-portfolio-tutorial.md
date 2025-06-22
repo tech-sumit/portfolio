@@ -11,8 +11,6 @@ tags:
   - tutorial
 ---
 
-# Building a Modern Portfolio Website with Gatsby & AI Tools: A Complete Tutorial
-
 Creating a professional portfolio website has never been easier with modern tools and AI assistance. This tutorial will guide you through building a complete portfolio website using Gatsby, integrating AI-powered features, and deploying it automatically to GitHub Pages.
 
 ## 🚀 Quick Start: Fork and Customize
@@ -326,4 +324,4 @@ Ready to build your dream portfolio? Fork this repository and start customizing!
 
 ---
 
-*Built with ❤️ using Gatsby, React, and AI assistance. Star the repository if this tutorial helped you!*
+*Built with ❤️ using Gatsby, React, and AI assistance. Star the repository if this tutorial helped you!* 
