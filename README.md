@@ -33,13 +33,20 @@ A next-generation portfolio website that showcases the power of AI integration i
 - **Intelligent Reference Links**: AI curates up to 3 relevant resources (documentation, tutorials, community links)
 - **No Static Content**: Everything generated on-demand with intelligent fallback handling
 
+### Unified Blog Platform
+- **Medium Integration**: Automatically fetches and displays your Medium articles alongside local blog posts
+- **Dynamic RSS Processing**: Real-time Medium content fetching via RSS feed with HTML entity decoding
+- **Unified Experience**: Search and filter across both local and Medium posts with visual source indicators
+- **Responsive Tags**: Combined tag system from both sources with intelligent filtering and "M" badges for Medium posts
+
 ## 🔧 Technical Architecture
 
 ### Core Technologies
 - **Frontend**: Gatsby + React (AI-generated components)
 - **AI Integration**: Google Gemini AI API
+- **Blog System**: Unified local Markdown + Medium RSS feed integration
 - **Styling**: CSS Modules with AI-optimized responsive design
-- **Content**: Markdown processing with GraphQL queries
+- **Content**: Markdown processing with GraphQL queries + dynamic RSS fetching
 - **Deployment**: Optimized for GitHub Pages with environment variable injection
 
 ### AI API Configuration
@@ -48,9 +55,31 @@ The system uses intelligent environment variable detection:
 ```bash
 # Primary option (build-time injection)
 GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+
+# Medium blog integration (optional)
+MEDIUM_USERNAME=your_medium_username
 ```
 
-**Get your API key**: https://makersuite.google.com/app/apikey
+**Get your Google AI API key**: https://makersuite.google.com/app/apikey
+
+### Medium Blog Integration Setup
+To display your Medium articles in the blog section:
+
+1. **Find your Medium username**: 
+   - Go to your Medium profile (e.g., `medium.com/@johndoe`)
+   - Use the part after `@` (e.g., `johndoe`)
+
+2. **Set environment variable**:
+   ```bash
+   # Local development
+   export MEDIUM_USERNAME=your_medium_username
+   
+   # Or add to GitHub Secrets for production
+   MEDIUM_USERNAME=your_medium_username
+   ```
+
+3. **Enable in configuration** (optional, enabled by default):
+   - Edit `src/config/blog.js` and ensure `showMediumPosts: true`
 
 ### Smart Environment Handling
 - **GitHub Pages Compatible**: Environment variables injected during build process
@@ -75,6 +104,7 @@ GOOGLE_AI_API_KEY=your_google_ai_api_key_here
 
 - ✅ **100% AI-Generated Codebase**: Demonstrates cutting-edge AI development capabilities
 - ✅ **Real-time AI Interactions**: Live chatbot and dynamic content generation
+- ✅ **Unified Blog Platform**: Seamlessly combines local Markdown posts with Medium RSS feed
 - ✅ **Zero Hardcoded Content**: All descriptions and links generated dynamically
 - ✅ **Production-Ready**: Fully functional portfolio with professional design
 - ✅ **Scalable Architecture**: Easy to extend with additional AI features
@@ -93,9 +123,10 @@ GOOGLE_AI_API_KEY=your_google_ai_api_key_here
    npm install
    ```
 
-3. **Set up AI API key**
+3. **Set up environment variables**
    ```shell
    export GOOGLE_AI_API_KEY=your_api_key_here
+   export MEDIUM_USERNAME=your_medium_username  # Optional: for Medium blog integration
    ```
 
 4. **Start development server**
@@ -126,17 +157,20 @@ This project is **open source** and designed to be easily customizable. Transfor
        ├── education.md   # Your education background
        └── achievements.md # Your achievements
    ```
-3. **Add your Google AI API key** to GitHub Secrets as `GOOGLE_AI_API_KEY`
+3. **Configure GitHub Secrets**:
+   - Add `GOOGLE_AI_API_KEY` with your Google AI API key
+   - Add `MEDIUM_USERNAME` with your Medium username (optional, for blog integration)
 4. **Enable GitHub Pages** in repository settings
 5. **Push changes** - your personalized AI-powered portfolio deploys automatically!
 
 ### What You Get Out of the Box
 - ✅ **AI Chatbot**: Automatically trained on YOUR content
 - ✅ **Dynamic Skills**: AI generates descriptions for YOUR skills
+- ✅ **Medium Blog Integration**: Display your Medium articles alongside local blog posts
 - ✅ **Professional Design**: Modern, responsive portfolio layout
 - ✅ **Zero Hosting Costs**: Free GitHub Pages deployment
 - ✅ **SEO Optimized**: Built-in Gatsby SEO features
-- ✅ **Blog Ready**: Markdown-powered blog system
+- ✅ **Unified Blog System**: Markdown-powered local posts + Medium RSS integration
 
 ### Cost Breakdown
 - **Development**: $0 (open source template)

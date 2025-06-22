@@ -43,6 +43,7 @@ jobs:
       env:
         PREFIX_PATHS: true
         GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+        MEDIUM_USERNAME: ${{ secrets.MEDIUM_USERNAME }}
 
     - name: Upload production-ready build files
       uses: actions/upload-pages-artifact@v3
