@@ -2,59 +2,77 @@ import React, { useState, useMemo } from "react";
 import { Link, graphql } from "gatsby";
 import Layout from "../components/layout";
 import { useGradient } from '../context/GradientContext';
+import { blogConfig } from '../config/blog';
+import { useMediumPosts } from '../hooks/useMediumPosts';
 import * as styles from '../styles/blog.module.css';
+
+const decodeHtmlEntities = (text) => {
+  if (!text) return '';
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = text;
+  return textarea.value;
+};
+
+const truncateText = (text, maxLength = 160) => {
+  if (!text) return '';
+  const decoded = decodeHtmlEntities(text);
+  const clean = decoded.replace(/<[^>]*>/g, '');
+  return clean.length <= maxLength ? clean : clean.substr(0, maxLength).replace(/\s+\S*$/, '') + '...';
+};
 
 const BlogIndexPage = ({ data }) => {
   const { selectedGradient, isLoading } = useGradient();
-  
-  // --- State ---
+  const { mediumPosts } = useMediumPosts();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState(new Set());
 
-  // --- Data extraction ---
-  const allPosts = data.allPosts.nodes;
-  const allUniqueTags = data.allTags.group;
+  const localPosts = data.allPosts.nodes.map(post => ({
+    source: 'local',
+    id: post.fields.slug,
+    title: post.frontmatter.title,
+    date: post.frontmatter.date,
+    tags: post.frontmatter.tags || [],
+    description: post.frontmatter.description || post.excerpt,
+    slug: post.fields.slug
+  }));
 
-  // --- Filtering logic ---
+  const allPosts = [...localPosts, ...mediumPosts].sort((a, b) => 
+    new Date(b.isoDate || b.date) - new Date(a.isoDate || a.date)
+  );
+
+  const allTagCounts = allPosts.reduce((acc, post) => {
+    post.tags?.forEach(tag => tag && (acc[tag] = (acc[tag] || 0) + 1));
+    return acc;
+  }, {});
+
+  const allUniqueTags = Object.entries(allTagCounts)
+    .map(([tag, totalCount]) => ({ tag, totalCount }))
+    .sort((a, b) => b.totalCount - a.totalCount);
+
+  const mediumTagCounts = mediumPosts.reduce((acc, post) => {
+    post.tags?.forEach(tag => tag && (acc[tag] = (acc[tag] || 0) + 1));
+    return acc;
+  }, {});
+
   const filteredPosts = useMemo(() => {
     return allPosts.filter(post => {
-      const title = post.frontmatter.title || "";
-      const description = post.frontmatter.description || "";
-      const excerpt = post.excerpt || "";
-      const tags = post.frontmatter.tags || [];
-      const lowerSearchQuery = searchQuery.toLowerCase(); // Lowercase search query once
+      const query = searchQuery.toLowerCase();
+      const searchMatch = !query || 
+        post.title?.toLowerCase().includes(query) ||
+        post.description?.toLowerCase().includes(query) ||
+        post.tags?.some(tag => tag?.toLowerCase().includes(query));
 
-      // Match search query (case-insensitive) against title, desc, excerpt, AND tags
-      const searchMatch = searchQuery === "" ||
-        title.toLowerCase().includes(lowerSearchQuery) ||
-        description.toLowerCase().includes(lowerSearchQuery) ||
-        excerpt.toLowerCase().includes(lowerSearchQuery) ||
-        tags.some(tag => tag.toLowerCase().includes(lowerSearchQuery)); // <<< Check tags
-
-      // Match selected tags (post must have ALL selected tags if any tags are selected)
-      // Corrected logic: use .every() if you want posts matching ALL selected tags
-      // Or keep .some() if matching ANY selected tag is desired.
-      // Let's stick with ANY for now as it's common.
-      const tagMatch = selectedTags.size === 0 ||
-        tags.some(tag => selectedTags.has(tag));
+      const tagMatch = !selectedTags.size || 
+        post.tags?.some(tag => selectedTags.has(tag));
 
       return searchMatch && tagMatch;
     });
   }, [allPosts, searchQuery, selectedTags]);
 
-  // --- Handlers ---
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   const handleTagClick = (tag) => {
-    setSelectedTags(prevTags => {
-      const newTags = new Set(prevTags);
-      if (newTags.has(tag)) {
-        newTags.delete(tag);
-      } else {
-        newTags.add(tag);
-      }
+    setSelectedTags(prev => {
+      const newTags = new Set(prev);
+      newTags.has(tag) ? newTags.delete(tag) : newTags.add(tag);
       return newTags;
     });
   };
@@ -110,7 +128,7 @@ const BlogIndexPage = ({ data }) => {
             type="text"
             placeholder="Search posts..."
             value={searchQuery}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className={styles.searchInput}
             style={{
               width: '100%',
@@ -162,39 +180,58 @@ const BlogIndexPage = ({ data }) => {
               flexDirection: 'column',
               gap: '0.5rem'
             }}>
-              {allUniqueTags.map(group => (
-                <li key={group.tag}>
-                  <button
-                    onClick={() => handleTagClick(group.tag)}
-                    style={{
-                      width: '100%',
-                      padding: '0.8rem 1rem',
-                      border: `2px solid ${selectedTags.has(group.tag) ? (selectedGradient?.colors?.[0] || '#667eea') : (selectedGradient?.colors?.[0] || '#667eea') + '40'}`,
-                      borderRadius: '8px',
-                      background: selectedTags.has(group.tag) 
-                        ? `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}20, ${selectedGradient?.colors?.[1] || '#764ba2'}20)`
-                        : 'transparent',
-                      color: selectedTags.has(group.tag) ? (selectedGradient?.colors?.[0] || '#667eea') : '#333333',
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      textAlign: 'left',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <span>{group.tag}</span>
-                    <span style={{
-                      fontSize: '0.8rem',
-                      opacity: 0.7
-                    }}>
-                      ({group.totalCount})
-                    </span>
-                  </button>
-                </li>
-              ))}
+              {allUniqueTags.map(group => {
+                // Check if this tag exists in Medium posts (dynamic indicator)
+                const isInMedium = mediumTagCounts[group.tag] > 0;
+                
+                return (
+                  <li key={group.tag}>
+                    <button
+                      onClick={() => handleTagClick(group.tag)}
+                      style={{
+                        width: '100%',
+                        padding: '0.8rem 1rem',
+                        border: `2px solid ${selectedTags.has(group.tag) ? (selectedGradient?.colors?.[0] || '#667eea') : (selectedGradient?.colors?.[0] || '#667eea') + '40'}`,
+                        borderRadius: '8px',
+                        background: selectedTags.has(group.tag) 
+                          ? `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}20, ${selectedGradient?.colors?.[1] || '#764ba2'}20)`
+                          : 'transparent',
+                        color: selectedTags.has(group.tag) ? (selectedGradient?.colors?.[0] || '#667eea') : '#333333',
+                        fontSize: '0.9rem',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        textAlign: 'left',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {group.tag}
+                        {isInMedium && (
+                          <span style={{
+                            fontSize: '0.6rem',
+                            padding: '0.2rem 0.4rem',
+                            background: blogConfig.mediumColor,
+                            color: 'white',
+                            borderRadius: '4px',
+                            fontWeight: '600'
+                          }}>
+                            M
+                          </span>
+                        )}
+                      </span>
+                      <span style={{
+                        fontSize: '0.8rem',
+                        opacity: 0.7
+                      }}>
+                        ({group.totalCount})
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
             {selectedTags.size > 0 && (
               <button 
@@ -232,50 +269,94 @@ const BlogIndexPage = ({ data }) => {
             ) : (
               <div className={styles.postGrid} style={{
                 display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
                 gap: '2rem'
               }}>
                 {filteredPosts.map(post => {
-                  const title = post.frontmatter.title || post.fields.slug;
-                  const postPath = `/blog/${post.fields.slug}`;
+                  const title = decodeHtmlEntities(post.title);
+                  const postPath = post.source === 'local' ? `/blog/${post.slug}` : post.link;
+                  const isExternal = post.source === 'medium';
+                  
                   return (
-                    <div key={post.fields.slug} className={styles.postCard} style={{
+                    <div key={post.id} className={styles.postCard} style={{
                       padding: '2rem',
                       background: 'var(--background-secondary)',
                       borderRadius: '16px',
-                      border: '1px solid var(--border-color)',
-                      transition: 'all 0.3s ease'
+                      border: `1px solid ${isExternal ? blogConfig.mediumBorderColor : 'var(--border-color)'}`,
+                      transition: 'all 0.3s ease',
+                      position: 'relative'
                     }}>
+                      {/* Source indicator */}
+                      {isExternal && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '1rem',
+                          right: '1rem',
+                          padding: '0.3rem 0.8rem',
+                                                     background: `linear-gradient(135deg, ${blogConfig.mediumBackgroundColor}, ${blogConfig.mediumBackgroundColor})`,
+                           border: `1px solid ${blogConfig.mediumBorderColor}`,
+                          borderRadius: '15px',
+                          fontSize: '0.7rem',
+                          fontWeight: '600',
+                                                     color: blogConfig.mediumColor,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.3rem'
+                        }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                          </svg>
+                          Medium
+                        </div>
+                      )}
+                      
                       <article itemScope itemType="http://schema.org/Article">
-                        <header style={{ marginBottom: '1rem' }}>
+                        <header style={{ marginBottom: '1rem', paddingRight: isExternal ? '4rem' : '0' }}>
                           <h2 style={{
                             fontSize: '1.8rem',
                             fontWeight: '700',
                             marginBottom: '0.5rem'
                           }}>
-                            <Link to={postPath} itemProp="url" style={{
-                              background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              WebkitBackgroundClip: 'text',
-                              WebkitTextFillColor: 'transparent',
-                              backgroundClip: 'text',
-                              color: selectedGradient?.colors?.[0] || '#667eea',
-                              textDecoration: 'none'
-                            }}>
-                              <span itemProp="headline">{title}</span>
-                            </Link>
+                            {isExternal ? (
+                              <a 
+                                href={postPath} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                itemProp="url" 
+                                style={{
+                                  background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  backgroundClip: 'text',
+                                  color: selectedGradient?.colors?.[0] || '#667eea',
+                                  textDecoration: 'none'
+                                }}
+                              >
+                                <span itemProp="headline">{title}</span>
+                              </a>
+                            ) : (
+                              <Link to={postPath} itemProp="url" style={{
+                                background: selectedGradient?.textGradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text',
+                                color: selectedGradient?.colors?.[0] || '#667eea',
+                                textDecoration: 'none'
+                              }}>
+                                <span itemProp="headline">{title}</span>
+                              </Link>
+                            )}
                           </h2>
                           <small className={styles.postDate} style={{
                             color: 'var(--text-tertiary)',
                             fontSize: '0.9rem',
                             fontWeight: '500'
                           }}>
-                            {post.frontmatter.date}
+                            {post.date}
                           </small>
                         </header>
                         <section>
                           <p
-                            dangerouslySetInnerHTML={{
-                              __html: post.frontmatter.description || post.excerpt,
-                            }}
                             itemProp="description"
                             className={styles.postDescription}
                             style={{
@@ -284,19 +365,21 @@ const BlogIndexPage = ({ data }) => {
                               color: 'var(--text-primary)',
                               marginBottom: '1rem'
                             }}
-                          />
+                          >
+                            {truncateText(post.description || post.excerpt, 160)}
+                          </p>
                         </section>
                         
                         {/* Tags for individual posts */}
-                        {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+                        {post.tags && post.tags.length > 0 && (
                           <div style={{
                             display: 'flex',
                             flexWrap: 'wrap',
                             gap: '0.5rem',
                             marginTop: '1rem'
                           }}>
-                            {post.frontmatter.tags.map(tag => (
-                              <span key={tag} style={{
+                            {post.tags.map((tag, index) => (
+                              <span key={`${tag}-${index}`} style={{
                                 padding: '0.3rem 0.8rem',
                                 background: `linear-gradient(135deg, ${selectedGradient?.colors?.[0] || '#667eea'}20, ${selectedGradient?.colors?.[1] || '#764ba2'}20)`,
                                 border: `1px solid ${selectedGradient?.colors?.[0] || '#667eea'}40`,
@@ -379,14 +462,9 @@ export const pageQuery = graphql`
           description
           tags
         }
-      }
-    }
-    allTags: allMarkdownRemark(
-        filter: { fields: { sourceInstanceName: { eq: "posts" } } }
-    ) {
-      group(field: { frontmatter: { tags: SELECT }}) {
-        tag: fieldValue
-        totalCount
+        internal {
+          type
+        }
       }
     }
   }

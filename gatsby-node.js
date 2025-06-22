@@ -9,6 +9,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.GOOGLE_AI_API_KEY': JSON.stringify(process.env.GOOGLE_AI_API_KEY),
+        'process.env.MEDIUM_USERNAME': JSON.stringify(process.env.MEDIUM_USERNAME),
       }),
     ],
   })
