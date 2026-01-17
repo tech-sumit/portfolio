@@ -59,6 +59,7 @@
 }
 
 .postDate,
+.lastUpdated,
 .readTime {
   display: inline-flex;
   align-items: center;
@@ -69,8 +70,14 @@
 }
 
 .postDate svg,
+.lastUpdated svg,
 .readTime svg {
   opacity: 0.7;
+}
+
+.lastUpdated {
+  color: var(--accent-primary);
+  opacity: 0.8;
 }
 
 /* Tags */

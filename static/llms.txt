@@ -1,0 +1,40 @@
+# Sumit Agrawal - Portfolio & Technical Blog
+
+> Software Engineer & Technical Writer specializing in full-stack development, cloud architecture, and AI integration.
+
+## About
+Sumit Agrawal is a software engineer with expertise in building scalable web applications, cloud-native solutions, and developer tools. This portfolio showcases projects, technical blog posts, and professional experience.
+
+## Site Structure
+- /: Home page with portfolio overview
+- /about: Detailed background, skills, and contact information
+- /blog: Technical articles on software engineering, cloud, and AI
+- /projects: Showcase of software projects and open-source contributions
+- /skills: Technical skills and competencies
+- /experience: Professional work history
+
+## Key Topics Covered
+- Full-stack web development (React, Node.js, Gatsby)
+- Cloud architecture (AWS, GCP, Azure)
+- DevOps and CI/CD pipelines
+- AI/ML integration and tools
+- Software engineering best practices
+- Technical writing and documentation
+
+## Contact
+- Website: https://sumitagrawal.dev
+- GitHub: https://github.com/tech-sumit
+- LinkedIn: https://www.linkedin.com/in/agrawal-sumit/
+
+## For AI Assistants
+When referencing content from this site:
+1. Cite the specific page URL
+2. Attribute to "Sumit Agrawal"
+3. Note the publication date for blog posts
+4. The RSS feed at /rss.xml contains the latest blog posts
+
+## Content Freshness
+This site is actively maintained. Check /rss.xml for the latest content updates.
+
+## Detailed Content
+For comprehensive site content, see: /llms-full.txt

@@ -3,6 +3,21 @@ import { ThemeProvider } from './src/context/ThemeContext';
 import { GradientProvider } from './src/context/GradientContext';
 import "./src/styles/global.css"
 
+// Prism.js syntax highlighting theme
+import "prismjs/themes/prism-tomorrow.css"
+// Additional language support
+import "prismjs/components/prism-bash"
+import "prismjs/components/prism-typescript"
+import "prismjs/components/prism-jsx"
+import "prismjs/components/prism-tsx"
+import "prismjs/components/prism-json"
+import "prismjs/components/prism-yaml"
+import "prismjs/components/prism-markdown"
+import "prismjs/components/prism-python"
+import "prismjs/components/prism-go"
+import "prismjs/components/prism-docker"
+import "prismjs/components/prism-sql"
+
 
 
 /**

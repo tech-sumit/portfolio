@@ -7,9 +7,12 @@ import * as styles from '../styles/post.module.css';
 
 const PostTemplate = ({ data }) => {
   const { markdownRemark } = data;
-  const { frontmatter, html, timeToRead } = markdownRemark;
+  const { frontmatter, html, timeToRead, parent } = markdownRemark;
   const { selectedGradient } = useGradient();
   const contentRef = useRef(null);
+  
+  // Get last modified date from file system
+  const lastModified = parent?.modifiedTime;
 
   // Initialize Mermaid diagrams after content renders (client-side only)
   useEffect(() => {
@@ -135,6 +138,15 @@ const PostTemplate = ({ data }) => {
                 {frontmatter.date}
               </span>
             )}
+            {lastModified && lastModified !== frontmatter.date && (
+              <span className={styles.lastUpdated}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M23 4v6h-6M1 20v-6h6"/>
+                  <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                </svg>
+                Updated {lastModified}
+              </span>
+            )}
             {timeToRead && (
               <span className={styles.readTime}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -206,7 +218,7 @@ export default PostTemplate;
 // Gatsby Head API for SEO
 export const Head = ({ data }) => {
   const { markdownRemark } = data;
-  const { frontmatter, fields } = markdownRemark;
+  const { frontmatter, fields, parent } = markdownRemark;
   
   return (
     <Seo
@@ -214,6 +226,7 @@ export const Head = ({ data }) => {
       description={frontmatter.description}
       article={true}
       publishedTime={frontmatter.rawDate}
+      modifiedTime={parent?.rawModifiedTime}
       tags={frontmatter.tags || []}
       pathname={`/blog/${fields.slug}`}
     />
@@ -227,6 +240,12 @@ export const pageQuery = graphql`
       timeToRead
       fields {
         slug
+      }
+      parent {
+        ... on File {
+          modifiedTime(formatString: "MMMM DD, YYYY")
+          rawModifiedTime: modifiedTime
+        }
       }
       frontmatter {
         title

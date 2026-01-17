@@ -85,6 +85,25 @@ module.exports = {
       options: {
         plugins: [
           `gatsby-remark-autolink-headers`,
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              aliases: {
+                sh: "bash",
+                js: "javascript",
+                ts: "typescript",
+              },
+              showLineNumbers: false,
+              noInlineHighlight: false,
+              prompt: {
+                user: "user",
+                host: "localhost",
+                global: false,
+              },
+            },
+          },
         ],
       },
     },
@@ -149,7 +168,7 @@ module.exports = {
         },
       },
     },
-    // SEO: Robots.txt generation
+    // SEO: Robots.txt generation (with AI/LLM crawler support)
     {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
@@ -161,7 +180,38 @@ module.exports = {
             allow: `/`,
             disallow: [`/404`, `/404.html`],
           },
+          // Explicitly allow AI crawlers for better LLM discoverability
+          {
+            userAgent: `GPTBot`,
+            allow: `/`,
+          },
+          {
+            userAgent: `ChatGPT-User`,
+            allow: `/`,
+          },
+          {
+            userAgent: `Google-Extended`,
+            allow: `/`,
+          },
+          {
+            userAgent: `Anthropic-AI`,
+            allow: `/`,
+          },
+          {
+            userAgent: `ClaudeBot`,
+            allow: `/`,
+          },
+          {
+            userAgent: `PerplexityBot`,
+            allow: `/`,
+          },
+          {
+            userAgent: `Bytespider`,
+            allow: `/`,
+          },
         ],
+        // Custom additions to robots.txt
+        output: `/robots.txt`,
       },
     },
     // SEO: RSS Feed for blog

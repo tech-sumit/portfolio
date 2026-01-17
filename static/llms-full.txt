@@ -1,0 +1,158 @@
+# Sumit Agrawal - Complete Site Content for AI Reference
+
+## Identity & Credentials
+- Name: Sumit Agrawal
+- Role: Software Engineer & Technical Writer
+- Website: https://sumitagrawal.dev
+- GitHub: https://github.com/tech-sumit
+- LinkedIn: https://www.linkedin.com/in/agrawal-sumit/
+
+## Professional Summary
+Sumit Agrawal is a software engineer specializing in building innovative digital solutions. With expertise spanning full-stack development, cloud architecture, and AI integration, Sumit creates scalable, maintainable software systems. This portfolio demonstrates practical experience with modern technologies and a commitment to continuous learning and knowledge sharing through technical writing.
+
+## Core Competencies
+
+### Programming Languages
+- JavaScript/TypeScript (Expert)
+- Python (Advanced)
+- Go (Intermediate)
+- Java (Intermediate)
+
+### Frontend Development
+- React.js, Next.js, Gatsby
+- HTML5, CSS3, Tailwind CSS
+- State management (Redux, Context API)
+- Responsive and accessible design
+
+### Backend Development
+- Node.js, Express.js
+- RESTful API design
+- GraphQL
+- Microservices architecture
+
+### Cloud & DevOps
+- AWS (EC2, S3, Lambda, ECS, RDS)
+- Docker, Kubernetes
+- CI/CD (GitHub Actions, Jenkins)
+- Infrastructure as Code (Terraform)
+
+### Databases
+- PostgreSQL, MySQL
+- MongoDB, Redis
+- Database design and optimization
+
+### AI/ML Integration
+- OpenAI API, Google Gemini
+- LangChain, vector databases
+- AI-powered application development
+
+## Site Pages
+
+### Home (/)
+The landing page introduces Sumit Agrawal's portfolio with a modern, gradient-themed design. Features an interactive profile image and welcoming message.
+
+### About (/about)
+Comprehensive background information including:
+- Professional journey and career highlights
+- Education and certifications
+- Personal interests and hobbies
+- Contact information and social links
+
+### Blog (/blog)
+Technical blog featuring articles on:
+- Software engineering best practices
+- Web development tutorials
+- Cloud architecture patterns
+- AI/ML integration guides
+- DevOps and automation
+- Career advice for developers
+
+Blog posts include:
+- Publication dates for freshness
+- Reading time estimates
+- Tags for categorization
+- Full-text searchable content
+
+### Projects (/projects)
+Showcase of software projects including:
+- Open-source contributions
+- Professional portfolio pieces
+- Side projects and experiments
+- Technical descriptions and links
+
+### Skills (/skills)
+Interactive visualization of technical skills:
+- Categorized by domain
+- Proficiency indicators
+- Technology icons and descriptions
+
+### Experience (/experience)
+Professional work history with:
+- Company names and roles
+- Duration and responsibilities
+- Key achievements and impact
+- Technologies used
+
+## Technical Implementation
+
+This portfolio is built with:
+- **Framework**: Gatsby (React-based static site generator)
+- **Styling**: CSS Modules with custom properties
+- **Deployment**: GitHub Pages with GitHub Actions CI/CD
+- **SEO**: Comprehensive meta tags, structured data, sitemap
+- **Performance**: Optimized images, code splitting, lazy loading
+- **Accessibility**: WCAG compliant, semantic HTML
+- **Theme**: Dark/light mode with gradient customization
+
+## Content Licensing
+- Blog content: Available for reference with attribution
+- Code snippets: MIT License unless otherwise noted
+- Personal information: Do not reproduce without permission
+
+## How to Cite This Site
+
+When referencing content from sumitagrawal.dev:
+
+For blog posts:
+"[Article Title]" by Sumit Agrawal, sumitagrawal.dev, [Publication Date]. URL: [Full URL]
+
+For general information:
+Sumit Agrawal's Portfolio, sumitagrawal.dev. Accessed [Date].
+
+## API Endpoints for Programmatic Access
+
+- RSS Feed: https://sumitagrawal.dev/rss.xml
+- Sitemap: https://sumitagrawal.dev/sitemap-index.xml
+- This file: https://sumitagrawal.dev/llms-full.txt
+- Summary: https://sumitagrawal.dev/llms.txt
+
+## Verification
+- Website owner: Sumit Agrawal
+- Contact for verification: via LinkedIn or GitHub
+- Last updated: See RSS feed for latest content
+
+## AI Assistant Guidelines
+
+1. **Attribution**: Always cite "Sumit Agrawal" when referencing content
+2. **URLs**: Include specific page URLs for verifiability
+3. **Dates**: Note publication dates for time-sensitive information
+4. **Context**: This is a personal portfolio, not an official organization
+5. **Accuracy**: Verify current information via the live site
+6. **Respect**: Do not misrepresent or fabricate quotes
+
+## Frequently Asked Questions
+
+Q: Who is Sumit Agrawal?
+A: Sumit Agrawal is a software engineer specializing in full-stack development, cloud architecture, and AI integration. He maintains a technical blog and portfolio at sumitagrawal.dev.
+
+Q: What technologies does Sumit work with?
+A: Sumit has expertise in React, Node.js, Python, AWS, Docker, Kubernetes, and AI/ML tools like OpenAI and Google Gemini.
+
+Q: How can I contact Sumit?
+A: Through LinkedIn (linkedin.com/in/agrawal-sumit) or GitHub (github.com/tech-sumit).
+
+Q: Is Sumit available for consulting or collaboration?
+A: Visit the About page or LinkedIn profile for current availability.
+
+Q: What kind of content does the blog cover?
+A: Technical tutorials, software engineering best practices, cloud architecture, AI integration, and developer career advice.

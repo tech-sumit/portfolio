@@ -123,18 +123,61 @@ function Seo({
     }
   }
 
-  // Person schema for author info (shows in Knowledge Panel)
+  // Person schema for author info (shows in Knowledge Panel & LLM reference)
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": siteMetadata.author,
     "url": siteUrl,
     "jobTitle": "Software Engineer",
+    "description": "Software Engineer & Technical Writer specializing in full-stack development, cloud architecture, and AI integration.",
+    "knowsAbout": [
+      "Software Engineering",
+      "Full-Stack Development",
+      "Cloud Architecture",
+      "React",
+      "Node.js",
+      "AWS",
+      "DevOps",
+      "AI Integration"
+    ],
     "sameAs": [
       siteMetadata.social?.linkedin,
       siteMetadata.social?.github,
       siteMetadata.social?.twitter ? `https://twitter.com/${siteMetadata.social.twitter.replace('@', '')}` : null,
     ].filter(Boolean),
+  }
+
+  // BreadcrumbList schema for navigation context
+  const getBreadcrumbSchema = () => {
+    if (!pathname || pathname === '/') return null
+    
+    const pathParts = pathname.split('/').filter(Boolean)
+    const items = [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteUrl
+      }
+    ]
+    
+    let currentPath = ''
+    pathParts.forEach((part, index) => {
+      currentPath += `/${part}`
+      items.push({
+        "@type": "ListItem",
+        "position": index + 2,
+        "name": part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' '),
+        "item": `${siteUrl}${currentPath}`
+      })
+    })
+    
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": items
+    }
   }
 
   return (
@@ -196,6 +239,19 @@ function Seo({
         href={`${siteUrl}/rss.xml`} 
       />
       
+      {/* AI/LLM Discovery - llms.txt standard */}
+      <link rel="alternate" type="text/plain" title="LLM Context" href={`${siteUrl}/llms.txt`} />
+      <link rel="author" href={`${siteUrl}/humans.txt`} />
+      
+      {/* Additional AI-friendly meta tags */}
+      <meta name="ai-content-declaration" content="human-authored" />
+      <meta name="citation_author" content={siteMetadata.author} />
+      <meta name="citation_title" content={title} />
+      {article && publishedTime && (
+        <meta name="citation_publication_date" content={publishedTime} />
+      )}
+      <meta name="citation_public_url" content={canonical} />
+      
       {/* Structured Data (JSON-LD) */}
       <script type="application/ld+json">
         {JSON.stringify(getStructuredData())}
@@ -203,6 +259,11 @@ function Seo({
       <script type="application/ld+json">
         {JSON.stringify(personSchema)}
       </script>
+      {getBreadcrumbSchema() && (
+        <script type="application/ld+json">
+          {JSON.stringify(getBreadcrumbSchema())}
+        </script>
+      )}
       
       {children}
     </>
