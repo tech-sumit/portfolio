@@ -138,11 +138,11 @@ export const useAnalytics = () => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
           const target = mutation.target;
-          const classList = target.className;
+          const classString = typeof target.className === 'string' ? target.className : '';
           
           // Detect chat widget visibility changes
-          if (classList.includes('chat') || classList.includes('widget')) {
-            const isOpen = classList.includes('open') || classList.includes('visible') || classList.includes('active');
+          if (classString.includes('chat') || classString.includes('widget')) {
+            const isOpen = classString.includes('open') || classString.includes('visible') || classString.includes('active');
             trackEvent('chat_widget', {
               event_category: 'engagement',
               event_label: isOpen ? 'opened' : 'closed',
@@ -154,7 +154,8 @@ export const useAnalytics = () => {
         // Track when chat elements are added/removed
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
-            if (node.nodeType === 1 && (node.className?.includes?.('chat') || node.className?.includes?.('widget'))) {
+            const nodeClass = typeof node.className === 'string' ? node.className : '';
+            if (node.nodeType === 1 && (nodeClass.includes('chat') || nodeClass.includes('widget'))) {
               trackEvent('chat_widget', {
                 event_category: 'engagement',
                 event_label: 'opened',

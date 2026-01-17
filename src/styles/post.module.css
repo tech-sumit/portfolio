@@ -210,10 +210,18 @@
 
 .postContent img {
   max-width: 100%;
+  width: 100%;
   height: auto;
+  object-fit: contain;
   border-radius: 12px;
   margin: 2rem 0;
   box-shadow: var(--shadow-md);
+  display: block;
+}
+
+/* Ensure images in paragraphs display correctly */
+.postContent p > img {
+  margin: 1rem 0;
 }
 
 .postContent hr {

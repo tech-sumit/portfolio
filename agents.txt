@@ -1,0 +1,131 @@
+# Portfolio Repository - AI Agent Instructions
+
+> Instructions for AI assistants (Cursor, Claude, ChatGPT, Copilot) working on this repository.
+
+## Repository Overview
+
+This is a Gatsby-based personal portfolio website with blog functionality, SEO optimization, and LLM discoverability features.
+
+## Technology Stack
+
+- **Framework**: Gatsby (React-based static site generator)
+- **Styling**: CSS Modules
+- **Content**: Markdown files with frontmatter
+- **Deployment**: Static site hosting
+
+## Project Structure
+
+```
+portfolio/
+├── src/
+│   ├── components/     # React components
+│   ├── content/
+│   │   └── posts/      # Blog posts in Markdown
+│   ├── hooks/          # Custom React hooks
+│   ├── pages/          # Page components
+│   └── styles/         # Global styles
+├── static/             # Static files (images, llms.txt, robots.txt)
+├── gatsby-config.js    # Gatsby configuration
+├── gatsby-browser.js   # Browser-side code
+└── gatsby-ssr.js       # Server-side rendering code
+```
+
+## Blog Post Guidelines
+
+### Frontmatter Format
+
+All blog posts must include this frontmatter:
+
+```yaml
+---
+title: "Post Title"
+date: 2026-01-17T12:00:00.000Z
+description: "SEO-friendly description under 160 characters"
+tags:
+  - tag1
+  - tag2
+---
+```
+
+### Content Formatting Rules
+
+1. **Use Mermaid diagrams** for flowcharts and visualizations instead of ASCII art
+   ```mermaid
+   flowchart LR
+       A[Step 1] --> B[Step 2] --> C[Step 3]
+   ```
+
+2. **Use Markdown tables** for structured data instead of ASCII tables
+   ```markdown
+   | Column 1 | Column 2 |
+   |----------|----------|
+   | Data 1   | Data 2   |
+   ```
+
+3. **Never use ASCII art diagrams** - They don't render well. Use:
+   - Mermaid diagrams for flows
+   - Tables for structured information
+   - Lists for hierarchies
+
+4. **Images**: Store in `/static/images/` and reference as `/images/filename.ext`
+
+5. **Code blocks**: Always specify language for syntax highlighting
+   ```javascript
+   // Use language identifiers
+   ```
+
+### Content Structure
+
+- Start with TL;DR section
+- Use H2 (##) for main sections
+- Use H3 (###) for subsections
+- Include FAQ section with question-based headings
+- End with conclusion and contact links
+
+### SEO Best Practices
+
+- Title: 50-60 characters
+- Description: 150-160 characters
+- Include target keywords in first paragraph
+- Use question-based headings (matches AI queries)
+- Include comparison tables (AI extracts these well)
+
+## Component Guidelines
+
+- Use CSS Modules (`.module.css`) for component styles
+- Follow existing component patterns
+- Use the SEO component for meta tags
+
+## Commands
+
+```bash
+# Development
+npm run develop
+gatsby develop
+
+# Build
+npm run build
+gatsby build
+
+# Clean cache
+gatsby clean
+```
+
+## LLM SEO Files
+
+- `/static/llms.txt` - Brief site context for AI
+- `/static/llms-full.txt` - Extended information
+- `/static/humans.txt` - Human-readable credits
+
+## Important Notes
+
+1. **Don't modify** gatsby-config.js plugin configurations without understanding dependencies
+2. **Always test** blog posts by running `gatsby develop`
+3. **Check SEO** component when adding new page types
+4. **Images** should be optimized before adding to static/
+
+## Contact
+
+Repository owner: Sumit Agrawal
+- GitHub: https://github.com/tech-sumit
+- LinkedIn: https://linkedin.com/in/agrawal-sumit

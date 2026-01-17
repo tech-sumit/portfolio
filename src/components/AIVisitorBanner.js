@@ -58,6 +58,8 @@ const AIVisitorBanner = () => {
         return;
       }
 
+      let foundSource = false;
+
       // Check URL parameters for AI source
       const params = new URLSearchParams(window.location.search);
       const utmSource = params.get('utm_source');
@@ -68,6 +70,7 @@ const AIVisitorBanner = () => {
           if (utmSource.includes(domain.split('.')[0])) {
             setAiSource(info);
             setIsVisible(true);
+            foundSource = true;
             
             // Track AI referral event in GA
             if (typeof window.gtag === 'function') {
@@ -82,9 +85,9 @@ const AIVisitorBanner = () => {
         }
       }
 
-      // Also check referrer
+      // Also check referrer if no source found yet
       const referrer = document.referrer;
-      if (!isVisible && referrer) {
+      if (!foundSource && referrer) {
         for (const [domain, info] of Object.entries(AI_SOURCES)) {
           if (referrer.includes(domain)) {
             setAiSource(info);
