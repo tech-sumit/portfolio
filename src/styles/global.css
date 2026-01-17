@@ -385,6 +385,12 @@ pre[class*="language-"] {
   font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Monaco, 'Courier New', monospace !important;
   font-size: 0.9rem !important;
   line-height: 1.6 !important;
+  color: #e1e4e8 !important; /* Light text for dark theme */
+}
+
+/* Ensure plain text in code blocks is visible */
+pre[class*="language-"] code {
+  color: #e1e4e8 !important;
 }
 
 /* Token colors - works with prism-tomorrow theme */
@@ -446,7 +452,12 @@ pre[class*="language-"] {
 /* Light theme overrides */
 body.light-theme :not(pre) > code[class*="language-"],
 body.light-theme pre[class*="language-"] {
-  background: var(--bg-tertiary) !important;
+  background: #f6f8fa !important;
+  color: #24292e !important; /* Dark text for light theme */
+}
+
+body.light-theme pre[class*="language-"] code {
+  color: #24292e !important;
 }
 
 body.light-theme .token.comment,
@@ -502,4 +513,32 @@ body.light-theme .token.regex,
 body.light-theme .token.important,
 body.light-theme .token.variable {
   color: #e36209 !important;
+}
+
+/* Gatsby highlight wrapper styles */
+.gatsby-highlight {
+  margin: 1.5rem 0;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.gatsby-highlight pre[class*="language-"] {
+  margin: 0 !important;
+  border-radius: var(--border-radius);
+}
+
+/* Ensure code text is always visible */
+.gatsby-highlight pre code {
+  color: #e1e4e8 !important;
+  display: block;
+}
+
+body.light-theme .gatsby-highlight pre code {
+  color: #24292e !important;
+}
+
+/* Plain text token (fallback for unclassified tokens) */
+.token.plain-text,
+.token {
+  color: inherit;
 } 
