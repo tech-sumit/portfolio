@@ -3,6 +3,8 @@ import { ThemeProvider } from './src/context/ThemeContext';
 import { GradientProvider } from './src/context/GradientContext';
 import "./src/styles/global.css"
 
+// Prism.js core library (must be imported before language components)
+import "prismjs"
 // Prism.js syntax highlighting theme
 import "prismjs/themes/prism-tomorrow.css"
 // Additional language support
