@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import Seo from '../components/seo';
 import HeroSection from '../components/HeroSection';
-import GradientText from '../components/GradientText';
 import { useGradient } from '../context/GradientContext';
-import * as styles from '../styles/content-page.module.css'; // Reuse the same CSS module
+import * as styles from '../styles/content-page.module.css';
 
 // Updated helper function to parse the specific projects markdown structure
 function parseProjectsHtml(html) {
@@ -278,4 +278,13 @@ const ProjectsPage = () => {
   );
 };
 
-export default ProjectsPage; 
+export default ProjectsPage;
+
+// Gatsby Head API for SEO
+export const Head = () => (
+  <Seo
+    title="Projects"
+    description="Discover Sumit Agrawal's portfolio of projects including web applications, cloud solutions, and innovative software products."
+    pathname="/projects"
+  />
+); 

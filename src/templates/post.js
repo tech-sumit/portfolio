@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/layout"; 
+import Seo from "../components/seo";
 import { useGradient } from '../context/GradientContext';
 import * as styles from '../styles/post.module.css';
 
@@ -202,14 +203,35 @@ const PostTemplate = ({ data }) => {
 
 export default PostTemplate;
 
+// Gatsby Head API for SEO
+export const Head = ({ data }) => {
+  const { markdownRemark } = data;
+  const { frontmatter, fields } = markdownRemark;
+  
+  return (
+    <Seo
+      title={frontmatter.title}
+      description={frontmatter.description}
+      article={true}
+      publishedTime={frontmatter.rawDate}
+      tags={frontmatter.tags || []}
+      pathname={`/blog/${fields.slug}`}
+    />
+  );
+};
+
 export const pageQuery = graphql`
   query($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       timeToRead
+      fields {
+        slug
+      }
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")
+        rawDate: date
         tags
         description
       }

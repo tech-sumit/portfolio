@@ -1,6 +1,7 @@
 import React from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
+import Seo from "../components/seo";
 import { useGradient } from '../context/GradientContext';
 
 const IndexPage = () => {
@@ -313,3 +314,12 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
+
+// Gatsby Head API for SEO
+export const Head = () => (
+  <Seo
+    title="Home"
+    description="Software Engineer & Technical Writer | Building innovative digital solutions with expertise in full-stack development, cloud architecture, and AI integration."
+    pathname="/"
+  />
+);

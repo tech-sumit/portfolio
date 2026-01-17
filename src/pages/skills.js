@@ -3,9 +3,10 @@ import { Link, graphql, useStaticQuery } from 'gatsby';
 import { StaticImage } from "gatsby-plugin-image";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Layout from '../components/layout';
+import Seo from '../components/seo';
 import HeroSection from '../components/HeroSection';
 import GradientText from '../components/GradientText';
-import Modal from '../components/Modal'; // Import the external Modal component
+import Modal from '../components/Modal';
 import { useGradient } from '../context/GradientContext';
 import * as styles from '../styles/skills.module.css';
 // Import specific icons
@@ -784,4 +785,13 @@ Generate the JSON response for ${skillName}:`;
   );
 };
 
-export default SkillsPage; 
+export default SkillsPage;
+
+// Gatsby Head API for SEO
+export const Head = () => (
+  <Seo
+    title="Skills"
+    description="Explore Sumit Agrawal's technical skills including programming languages, frameworks, cloud platforms, DevOps tools, and more."
+    pathname="/skills"
+  />
+); 

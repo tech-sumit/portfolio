@@ -43,6 +43,7 @@ const Modal = ({ title, children, onClose, styles }) => {
   const closeButtonClass = styles?.modalCloseButton || 'modal-close-button-default';
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       ref={modalRef}
       className={overlayClass}
@@ -54,12 +55,14 @@ const Modal = ({ title, children, onClose, styles }) => {
       aria-label={title ? undefined : "Modal dialog"}
       tabIndex={-1}
     >
+{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <div 
         className={contentClass} 
         onClick={handleContentClick}
         onKeyDown={handleContentKeyDown}
         role="document"
-        tabIndex="0"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
       >
         {title && <h2 id="modal-title">{title}</h2>}
         <button 

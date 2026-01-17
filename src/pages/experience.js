@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import Seo from '../components/seo';
 import HeroSection from '../components/HeroSection';
 import GradientText from '../components/GradientText';
 import { useGradient } from '../context/GradientContext';
-// import Seo from '../components/seo'; // Optional
-import * as styles from '../styles/content-page.module.css'; // Create this CSS module
+import * as styles from '../styles/content-page.module.css';
 
 // Updated helper function to parse experience markdown structure more granularly
 function parseExperienceHtml(html) {
@@ -339,4 +339,13 @@ const ExperiencePage = () => {
   );
 };
 
-export default ExperiencePage; 
+export default ExperiencePage;
+
+// Gatsby Head API for SEO
+export const Head = () => (
+  <Seo
+    title="Experience"
+    description="View Sumit Agrawal's professional experience and career journey in software engineering, from startups to enterprise solutions."
+    pathname="/experience"
+  />
+); 

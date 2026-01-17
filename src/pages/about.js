@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { StaticImage } from "gatsby-plugin-image";
 import Layout from '../components/layout';
+import Seo from '../components/seo';
 import HeroSection from '../components/HeroSection';
-import GradientText from '../components/GradientText';
 import { useGradient } from '../context/GradientContext';
 import * as styles from '../styles/content-page.module.css';
 // Import icons
@@ -304,4 +304,13 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage; 
+export default AboutPage;
+
+// Gatsby Head API for SEO
+export const Head = () => (
+  <Seo
+    title="About"
+    description="Learn about Sumit Agrawal - a passionate Software Engineer with expertise in full-stack development, cloud architecture, and building innovative digital solutions."
+    pathname="/about"
+  />
+); 

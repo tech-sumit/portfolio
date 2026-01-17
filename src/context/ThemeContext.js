@@ -31,7 +31,8 @@ const ThemeProvider = ({ children }) => {
     if (theme !== currentTheme) {
       setTheme(currentTheme);
     }
-  }, []); // Only run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount - intentionally excluding 'theme' to avoid infinite loop
 
   // Effect to update body class and localStorage when theme changes
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Link, graphql } from "gatsby";
 import Layout from "../components/layout";
+import Seo from "../components/seo";
 import { useGradient } from '../context/GradientContext';
 import { blogConfig } from '../config/blog';
 import { useMediumPosts } from '../hooks/useMediumPosts';
@@ -442,6 +443,15 @@ const BlogIndexPage = ({ data }) => {
 };
 
 export default BlogIndexPage;
+
+// Gatsby Head API for SEO
+export const Head = () => (
+  <Seo
+    title="Technical Blog"
+    description="Insights, tutorials, and thoughts on software engineering, cloud architecture, and modern web development. Explore articles on full-stack development, DevOps, and AI integration."
+    pathname="/blog"
+  />
+);
 
 export const pageQuery = graphql`
   query BlogIndexQuery {
