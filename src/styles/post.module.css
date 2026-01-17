@@ -240,6 +240,29 @@
   background: var(--bg-secondary);
 }
 
+/* Mermaid Diagrams */
+.mermaidDiagram {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mermaidDiagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Light theme adjustments for Mermaid */
+:global(body.light-theme) .mermaidDiagram {
+  background: var(--bg-tertiary);
+}
+
 /* Post Footer */
 .postFooter {
   margin-top: 4rem;

@@ -7,10 +7,9 @@
   padding: 0.5rem 1rem;
   font-size: 1rem;
   width: 100%;
-  max-width: 400px;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  color: var(--text-primary); /* Adjusted from text-light */
+  color: var(--text-primary);
   border-radius: 4px;
 }
 

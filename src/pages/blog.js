@@ -112,17 +112,16 @@ const BlogIndexPage = ({ data }) => {
         </p>
       </div>
 
-      {/* Search Bar */}
+      {/* Blog Content Container */}
       <div style={{ 
         maxWidth: '1200px', 
         margin: '0 auto', 
         padding: '0 2rem 2rem',
         fontFamily: '"Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
+        {/* Search Bar - Full width aligned with grid */}
         <div className={styles.searchContainer} style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: '3rem'
+          marginBottom: '2rem'
         }}>
           <input
             type="text"
@@ -132,7 +131,6 @@ const BlogIndexPage = ({ data }) => {
             className={styles.searchInput}
             style={{
               width: '100%',
-              maxWidth: '500px',
               padding: '1rem 1.5rem',
               fontSize: '1.1rem',
               border: `2px solid ${selectedGradient?.colors?.[0] || '#667eea'}30`,
