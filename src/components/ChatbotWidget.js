@@ -87,7 +87,7 @@ const ChatbotWidget = () => {
         throw new Error('AI service not configured. Please set GOOGLE_AI_API_KEY environment variable.');
       }
 
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
       const prompt = `You are a helpful assistant knowledgeable about Sumit Agrawal based *only* on the provided website content.
 Answer the following user question strictly based on the information given below.
