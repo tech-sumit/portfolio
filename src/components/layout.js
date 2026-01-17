@@ -12,6 +12,8 @@ import { useStaticQuery, graphql } from "gatsby";
 import Header from "./header";
 import Footer from "./Footer";
 import ChatbotWidget from "./ChatbotWidget";
+import AIVisitorBanner from "./AIVisitorBanner";
+import { useAnalytics } from "../hooks/useAnalytics";
 import { useScrollHeader } from '../hooks/useScrollHeader';
 import * as styles from './Layout.module.css'; // CSS Module for Layout
 
@@ -27,6 +29,9 @@ const Layout = ({ children }) => {
   `);
 
   const isScrolled = useScrollHeader();
+  
+  // Initialize comprehensive analytics tracking
+  useAnalytics();
 
   const getMainContentClass = () => {
     if (isScrolled) return `${styles.mainContent} ${styles.scrolledContent}`;
@@ -35,6 +40,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className={styles.layoutContainer}>
+      <AIVisitorBanner />
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <main className={getMainContentClass()}>{children}</main>
       <Footer />

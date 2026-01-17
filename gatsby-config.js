@@ -31,6 +31,31 @@ module.exports = {
     image: `/og-image.svg`, // Default OG image (convert to PNG for best compatibility)
   },
   plugins: [
+    // Google Analytics (GA4)
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          `G-77NBT1CZ0N`, // GA4 Measurement ID
+        ],
+        gtagConfig: {
+          anonymize_ip: false,
+          cookie_expires: 63072000, // 2 years (default for GA)
+          send_page_view: true,
+          allow_google_signals: true, // Demographics & interests
+          allow_ad_personalization_signals: true, // Required for AdSense
+          link_attribution: true, // Enhanced link attribution
+          cookie_flags: 'SameSite=None;Secure', // Cross-site cookie support
+        },
+        pluginConfig: {
+          head: true,
+          respectDNT: false, // Track all users for accurate analytics
+          exclude: [], // Don't exclude any paths
+          delayOnRouteUpdate: 0, // No delay on route changes
+          origin: 'https://www.googletagmanager.com', // GTM origin
+        },
+      },
+    },
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,

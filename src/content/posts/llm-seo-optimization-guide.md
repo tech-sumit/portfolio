@@ -323,6 +323,55 @@ AI easily extracts and cites tabular data:
 
 ---
 
+## Real Results: How ChatGPT Now Cites This Site
+
+After implementing these LLM SEO techniques, I tested by asking ChatGPT: *"What is sumitagrawal.dev?"*
+
+Here's what happened:
+
+> **ChatGPT's Response:** "sumitagrawal.dev is the personal online portfolio and professional website of Sumit Agrawal — a technologist and creator who showcases his work, skills, projects, experience, and contact information..."
+
+The response included:
+- Accurate description of the site's purpose
+- Correct attribution to "Sumit Agrawal"
+- Links with `?utm_source=chatgpt.com` tracking parameter
+- References to specific sections (About, Projects, Skills, Blog)
+
+### How to Track AI Referrals
+
+When ChatGPT cites your site, it appends `?utm_source=chatgpt.com` to URLs. You can track this in Google Analytics:
+
+1. **Automatic tracking**: GA4 captures UTM parameters automatically
+2. **Create a segment**: Filter by `utm_source` containing "chatgpt" or "perplexity"
+3. **Track events**: Fire custom events when AI visitors arrive
+
+```javascript
+// Detect and track AI referrals
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const source = params.get('utm_source');
+  
+  if (source?.includes('chatgpt') || source?.includes('perplexity')) {
+    gtag('event', 'ai_referral', {
+      event_category: 'traffic',
+      event_label: source,
+    });
+  }
+}, []);
+```
+
+### Known AI Referral Sources
+
+| Source | UTM Parameter | Referrer Domain |
+|--------|--------------|-----------------|
+| ChatGPT | `utm_source=chatgpt.com` | `chat.openai.com` |
+| Perplexity | `utm_source=perplexity.ai` | `perplexity.ai` |
+| Claude | `utm_source=claude.ai` | `claude.ai` |
+| Gemini | Direct referrer | `gemini.google.com` |
+| Copilot | Direct referrer | `copilot.microsoft.com` |
+
+---
+
 ## Frequently Asked Questions
 
 ### What is the difference between SEO and LLM SEO?
@@ -365,6 +414,8 @@ Use this checklist to implement LLM SEO on your site:
 - [ ] Use question-based headings where natural
 - [ ] Write answer-first introductions
 - [ ] Add comparison tables for key concepts
+- [ ] Set up Google Analytics to track AI referrals
+- [ ] Test by asking AI assistants about your site
 
 ---
 
