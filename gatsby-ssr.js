@@ -74,6 +74,13 @@ exports.onRenderBody = ({ setHtmlAttributes, setHeadComponents, setPreBodyCompon
       async: true,
       src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9953784416776334',
       crossOrigin: 'anonymous'
+    }),
+    // Twitter/X Widgets for tweet embeds
+    React.createElement('script', {
+      key: 'twitter-widgets',
+      async: true,
+      src: 'https://platform.twitter.com/widgets.js',
+      charSet: 'utf-8'
     })
   ])
   

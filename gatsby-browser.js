@@ -19,6 +19,9 @@ import "prismjs/components/prism-python"
 import "prismjs/components/prism-go"
 import "prismjs/components/prism-docker"
 import "prismjs/components/prism-sql"
+import "prismjs/components/prism-rust"
+import "prismjs/components/prism-c"
+import "prismjs/components/prism-swift"
 
 
 
@@ -34,4 +37,11 @@ export const wrapRootElement = ({ element }) => {
       <ThemeProvider>{element}</ThemeProvider>
     </GradientProvider>
   );
+};
+
+// Reload Twitter widgets on route change for tweet embeds
+export const onRouteUpdate = () => {
+  if (typeof window !== 'undefined' && window.twttr && window.twttr.widgets) {
+    window.twttr.widgets.load();
+  }
 };

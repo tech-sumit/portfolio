@@ -541,4 +541,26 @@ body.light-theme .gatsby-highlight pre code {
 .token.plain-text,
 .token {
   color: inherit;
+}
+
+/* Twitter/X Embed Styles */
+.twitter-tweet {
+  margin: 2rem auto !important;
+}
+
+blockquote.twitter-tweet {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-style: normal;
+}
+
+blockquote.twitter-tweet p {
+  margin-bottom: 0.5rem;
+}
+
+blockquote.twitter-tweet a {
+  color: var(--accent-primary);
 } 
