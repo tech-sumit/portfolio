@@ -27,7 +27,7 @@ tags:
 
 Boris Cherny ([@bcherny](https://x.com/bcherny)), the creator of Claude Code at Anthropic, recently shared his complete workflow for AI-assisted development. The numbers are staggering:
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">How I use Claude Code to build Claude Code (a thread) 🧵</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179832300581177"></a></blockquote>
 
 In a 30-day period, Boris reported:
 - **259 Pull Requests**
@@ -45,7 +45,7 @@ Let me break down each element of Boris's workflow and explain why it works.
 
 ### 1. Parallel Agent Instances
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I run 5 Claude Code instances in my terminal, each with its own git checkout. Plus 5-10 browser sessions on claude.ai/code. I can start on mobile and resume on desktop with --teleport.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179833990885678"></a></blockquote>
 
 Boris runs **5-10 Claude agents simultaneously**:
 
@@ -74,7 +74,7 @@ cd ../project-docs && claude
 
 ### 2. Model Choice: Opus 4.5 with Thinking
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I use Opus 4.5 for everything with thinking mode enabled. Yes, it's slower. But it needs way less steering and produces better results. The time you save on corrections more than makes up for the speed difference.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179836704600237"></a></blockquote>
 
 Boris exclusively uses **Opus 4.5** (not Sonnet) with **thinking mode always on**.
 
@@ -89,7 +89,7 @@ Boris exclusively uses **Opus 4.5** (not Sonnet) with **thinking mode always on*
 
 ### 3. The CLAUDE.md File
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We maintain a CLAUDE.md in every repo. Whenever Claude makes a mistake, we add a rule about it. It's like a shared memory across all agents and team members. Updated every day.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179840848597422"></a></blockquote>
 
 The **CLAUDE.md file** is the secret weapon. It's a living document of:
 
@@ -126,7 +126,7 @@ The **CLAUDE.md file** is the secret weapon. It's a living document of:
 
 ### 4. PR Reviews Update CLAUDE.md
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">During code reviews, we tag @​claude to flag issues. A GitHub Action automatically updates CLAUDE.md with the new learnings. Mistakes caught in review become documented habits.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179842928947333"></a></blockquote>
 
 The team has **automated learning** built into their PR process:
 
@@ -147,7 +147,7 @@ flowchart LR
 
 ### 5. Plan Mode First
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I always start in Plan mode. Back and forth until the plan is solid. Only then do I switch to auto-accept for execution. Having a good plan means fewer missteps and wasted iterations.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179845336527000"></a></blockquote>
 
 The workflow is **Plan → Refine → Execute**:
 
@@ -163,7 +163,7 @@ The workflow is **Plan → Refine → Execute**:
 
 ### 6. Slash Commands for Automation
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Repetitive workflows go into slash commands: /commit-push-pr, /run-tests, /format-all. Stored in .claude/commands/. Eliminates prompt engineering for common tasks.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179847949500714"></a></blockquote>
 
 **Slash commands** turn common workflows into one-liners:
 
@@ -191,7 +191,7 @@ The workflow is **Plan → Refine → Execute**:
 
 ### 7. Hooks for Continuous Automation
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">PostToolUse hooks automatically format code after Claude writes it. Stop hooks handle long-running tasks. Hooks are like event listeners for Claude's actions.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179850139000872"></a></blockquote>
 
 **Hooks** trigger automation at specific points:
 
@@ -205,7 +205,7 @@ The workflow is **Plan → Refine → Execute**:
 
 ### 8. Pre-Approved Permissions
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I pre-approve safe commands in .claude/settings.json. No more constant permission prompts for npm install, git commit, running tests. Makes sessions flow smoothly.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179852047335529"></a></blockquote>
 
 **Example .claude/settings.json**:
 ```json
@@ -233,7 +233,7 @@ The workflow is **Plan → Refine → Execute**:
 
 ### 9. Tool Integrations
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Claude connects to Slack, BigQuery, Sentry, our internal tools via MCP. It's not just writing code—it's reading logs, querying data, posting updates. Config is shared in .mcp.json.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179854077407667"></a></blockquote>
 
 Claude Code integrates with:
 
@@ -249,7 +249,7 @@ Claude Code integrates with:
 
 ### 10. Verification is #1
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">My #1 tip: verification. Every change must be verified. Tests, browser checks, simulators. Without verification, errors creep in silently. This alone improves code quality 2-3x.</p>&mdash; Boris Cherny (@bcherny) <a href="https://twitter.com/bcherny/status/2007179832300581177">January 2026</a></blockquote>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/bcherny/status/2007179856266789204"></a></blockquote>
 
 **Verification is non-negotiable**:
 
